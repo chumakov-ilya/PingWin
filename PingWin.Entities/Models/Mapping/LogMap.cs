@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
@@ -27,7 +26,7 @@ namespace PingWin.Entities.Models.Mapping
             this.Property(t => t.JobId).HasColumnName("JobId");
 
             // Relationships
-            this.HasRequired(t => t.Job)
+            this.HasRequired(t => t.JobRecord)
                 .WithMany(t => t.Logs)
                 .HasForeignKey(d => d.JobId);
 

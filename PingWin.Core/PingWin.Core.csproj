@@ -46,7 +46,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationHelper.cs" />
+    <Compile Include="CoreException.cs" />
     <Compile Include="Job.cs" />
+    <Compile Include="JobDefaultSettings.cs" />
+    <Compile Include="JobRegistry.cs" />
     <Compile Include="Mailer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\IRule.cs" />
@@ -57,6 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PingWin.Entities\PingWin.Entities.csproj">
+      <Project>{0afce0c9-28d9-47b9-bef1-a37c4ed47a46}</Project>
+      <Name>PingWin.Entities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

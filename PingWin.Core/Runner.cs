@@ -8,13 +8,13 @@ namespace PingWin.Core
 {
 	public class Runner
 	{
-		public static void RunAll(List<Job> jobs)
+		public static void RunAll(JobRegistry registry)
 		{
 			var cancellationToken = new CancellationToken();
 
 			var tasks = new List<Task>();
 
-			foreach (var job in jobs)
+			foreach (var job in registry.Jobs)
 			{
 				Task task = Runner.RunOne(cancellationToken, job);
 

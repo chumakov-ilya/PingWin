@@ -9,20 +9,33 @@ namespace PingWin.Core
 {
 	public class Job
 	{
-		public IRule Rule { get; private set; }
-		List<MailTrigger> Triggers { get; set; }
+		public delegate void SuccessTrigger();
 
-		public Job(string name, IRule rule)
+		public Job(string name, IRule rule, int id)
 		{
+			Id = id;
+			Name = name;
 			Rule = rule;
 			Triggers = new List<MailTrigger>();
 			CheckInterval = JobDefaultSettings.CheckInterval;
 			ErrorReportInterval = JobDefaultSettings.ErrorReportInterval;
 		}
 
-		public void AddTrigger(MailTrigger trigger)
+		public int Id { get; }
+
+		public IRule Rule { get; }
+
+		private List<MailTrigger> Triggers { get; }
+
+		public string Name { get; set; }
+
+		public int CheckInterval { get; set; }
+
+		public int ErrorReportInterval { get; set; }
+
+		public void AttachTrigger(MailTrigger trigger)
 		{
-			trigger.Rule = this.Rule;
+			trigger.Rule = Rule;
 			Triggers.Add(trigger);
 		}
 
@@ -30,19 +43,7 @@ namespace PingWin.Core
 		{
 			return Triggers;
 		}
-		public delegate void SuccessTrigger();
 
-		public event EventHandler OnSuccess = delegate { };
-
-		public int CheckInterval { get; set; }
-
-		public int ErrorReportInterval { get; set; }
-	}
-
-	internal static class JobDefaultSettings
-	{
-		public static int CheckInterval { get; } = 1;
-
-		public static int ErrorReportInterval { get; } = 300;
+		//public event EventHandler OnSuccess = delegate { };
 	}
 }

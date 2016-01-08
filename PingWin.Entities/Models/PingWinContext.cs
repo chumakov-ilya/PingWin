@@ -16,12 +16,12 @@ namespace PingWin.Entities.Models
         {
         }
 
-        public DbSet<Job> Jobs { get; set; }
+        public DbSet<JobRecord> JobRecords { get; set; }
         public DbSet<Log> Logs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.Add(new JobMap());
+            modelBuilder.Configurations.Add(new JobRecordMap());
             modelBuilder.Configurations.Add(new LogMap());
         }
     }

@@ -13,7 +13,7 @@ namespace PingWin.Core.Tests
 		{
 			using (var context = new PingWinContext())
 			{
-				List<Entities.Models.Job> jobs = context.Jobs.ToList();
+				List<Entities.Models.JobRecord> jobs = context.JobRecords.ToList();
 
 				Assert.IsNotEmpty(jobs);
 			}

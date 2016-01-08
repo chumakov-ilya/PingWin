@@ -10,6 +10,6 @@ namespace PingWin.Entities.Models
         public string Message { get; set; }
         public string Details { get; set; }
         public int JobId { get; set; }
-        public virtual Job Job { get; set; }
+        public virtual JobRecord JobRecord { get; set; }
     }
 }

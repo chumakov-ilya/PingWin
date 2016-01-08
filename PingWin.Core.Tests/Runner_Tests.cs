@@ -9,18 +9,13 @@ namespace PingWin.Core.Tests
 		[Test]
 		public void RunAll_Test()
 		{
-			List<Job> jobs = new List<Job>();
+			var registry = new JobRegistry();
 
-			var job1 = new Job("", new WcfEndpointRule("https://sandbox.webstore.mont.ru/B2bService.svc"));
-			var job2 = new Job("", new DbConnectionRule("Server=.;Database=PostoryDbX;Trusted_Connection=True;"));
+			registry.AddJob("pipe-wcf-ekey-v1", new WcfEndpointRule("https://sandbox.webstore.mont.ru/B2bService.svc"));
+			registry.AddJob("test-db-postory", new DbConnectionRule("Server=.;Database=PostoryDb;Trusted_Connection=True;"))
+					.AttachTrigger(new MailTrigger());
 
-			job2.AddTrigger(new MailTrigger());
-
-			jobs.Add(job1);
-			jobs.Add(job2);
-
-
-			Runner.RunAll(jobs);
+			Runner.RunAll(registry);
 		}
 	}
 }

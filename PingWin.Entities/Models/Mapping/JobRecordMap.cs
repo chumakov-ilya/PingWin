@@ -1,11 +1,11 @@
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace PingWin.Entities.Models.Mapping
 {
-    public class JobMap : EntityTypeConfiguration<Job>
+    public class JobRecordMap : EntityTypeConfiguration<JobRecord>
     {
-        public JobMap()
+        public JobRecordMap()
         {
             // Primary Key
             this.HasKey(t => t.Id);
@@ -16,7 +16,7 @@ namespace PingWin.Entities.Models.Mapping
                 .HasMaxLength(50);
 
             // Table & Column Mappings
-            this.ToTable("Job");
+            this.ToTable("JobRecord");
             this.Property(t => t.Id).HasColumnName("Id");
             this.Property(t => t.Name).HasColumnName("Name");
         }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace PingWin.Entities.Models
 {
-    public partial class Job
+    public partial class JobRecord
     {
-        public Job()
+        public JobRecord()
         {
             this.Logs = new List<Log>();
         }
