@@ -27,7 +27,6 @@ namespace PingWin.Entities.Models.Mapping
             this.HasRequired(t => t.JobRecord)
                 .WithMany(t => t.Logs)
                 .HasForeignKey(d => d.JobId);
-
-        }
+		}
     }
 }

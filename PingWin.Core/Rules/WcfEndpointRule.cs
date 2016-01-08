@@ -1,6 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
+using PingWin.Entities;
+using PingWin.Entities.Models;
 using RestSharp;
 
 namespace PingWin.Core
@@ -9,31 +12,44 @@ namespace PingWin.Core
 	{
 		public string ServiceReference { get; private set; }
 
+		public LogRepository LogRepository { get; set; }
+
 		public WcfEndpointRule(string serviceReference)
 		{
 			ServiceReference = serviceReference;
+			LogRepository = new LogRepository();
 		}
 
-
-		public async Task<bool> Execute()
+		public async Task<Log> Execute()
 		{
-			Trace.WriteLine($"WebTester.Check START");
+			try
+			{
+				//ignore SSL errors
+				ServicePointManager.ServerCertificateValidationCallback +=
+					(sender, certificate, chain, sslPolicyErrors) => true;
 
-			//ignore SSL errors
-			ServicePointManager.ServerCertificateValidationCallback += 
-				(sender, certificate, chain, sslPolicyErrors) => true;
+				var client = new RestClient(ServiceReference);
 
-			var client = new RestClient(ServiceReference);
+				IRestRequest request = new RestRequest();
 
-			IRestRequest request = new RestRequest();
+				var response = await client.ExecuteTaskAsync(request);
 
-			var response = await client.ExecuteTaskAsync(request);
-
-			bool ok = response.StatusCode == HttpStatusCode.OK;
-
-			Trace.WriteLine($"{ok}: {ServiceReference}");
-
-			return ok;
+				if (response.StatusCode == HttpStatusCode.OK)
+				{
+					return LogRepository.CreateLog(StatusEnum.Success);
+				}
+				else
+				{
+					var log = LogRepository.CreateLog(StatusEnum.Failure);
+					log.Message = $"HTTP StatusCode: {response.StatusCode}";
+					log.Details = response.ToString();
+					return log;
+				}
+			}
+			catch (Exception exception)
+			{
+				return LogRepository.CreateLog(StatusEnum.InternalError, exception);
+			}
 		}
 
 		public string FailureDescription()

@@ -1,48 +1,57 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using PingWin.Entities;
+using PingWin.Entities.Models;
 
 namespace PingWin.Core
 {
 	public class DbConnectionRule: IRule
 	{
 		public string ConnectionString { get; private set; }
+		public LogRepository LogRepository { get; set; }
 
 		public DbConnectionRule(string connectionString)
 		{
 			ConnectionString = connectionString;
+			LogRepository = new LogRepository();
 		}
 
-		public async Task<bool> Execute()
+		public async Task<Log> Execute()
 		{
-			Trace.WriteLine($"DbTester.Check START");
+			try
+			{
+				try
+				{
+					Trace.WriteLine($"DbTester.Check START");
 
-			var response = await ConnectionCanBeOpened(ConnectionString);
+					bool ok = await ConnectionCanBeOpened(ConnectionString);
 
-			bool ok = response;
+					Trace.WriteLine($"{ok}: {ConnectionString}");
 
-			Trace.WriteLine($"{ok}: {ConnectionString}");
-
-			return ok;
+					return LogRepository.CreateLog(StatusEnum.Success);
+				}
+				catch (SqlException exception)
+				{
+					return LogRepository.CreateLog(StatusEnum.Failure, exception);
+				}
+			}
+			catch (Exception exception)
+			{
+				return LogRepository.CreateLog(StatusEnum.InternalError, exception);
+			}
 		}
 
 		public static async Task<bool> ConnectionCanBeOpened(string constr)
 		{
 			using (var connection = new SqlConnection(constr))
 			{
-				try
-				{
-					connection.Open();
-					connection.Close();
-					return true;
-				}
-				catch (SqlException)
-				{
-					return false;
-				}
+				connection.Open();
+				connection.Close();
+				return true;
 			}
 		}
-
 
 		public string FailureDescription()
 		{

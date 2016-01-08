@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using PingWin.Entities;
+using PingWin.Entities.Models;
 
 namespace PingWin.Core
 {
 	public class Runner
 	{
+		static Runner()
+		{
+			LogRepository = new LogRepository();
+		}
+
+		static LogRepository LogRepository { get; set; }
+
 		public static void RunAll(JobRegistry registry)
 		{
 			var cancellationToken = new CancellationToken();
@@ -26,7 +35,7 @@ namespace PingWin.Core
 
 		public static async Task RunOne(CancellationToken cancellationToken, Job job)
 		{
-			var timerInterval = 10000;
+			var timerInterval = 5000;
 
 			await Task.Run(async () =>
 			{
@@ -35,11 +44,15 @@ namespace PingWin.Core
 				{
 					Trace.WriteLine("iteration START");
 
-					Func<Task<bool>> method = job.Rule.Execute;
+					Func<Task<Log>> method = job.Rule.Execute;
 
-					bool success = await Task.Run(method, cancellationToken);
+					Log log = await Task.Run(method, cancellationToken);
 
-					if (!success)
+					job.WriteSelfTo(log);
+						
+					LogRepository.Save(log);
+
+					if (log.StatusEnum != StatusEnum.Success)
 					{
 						Trace.WriteLine("iteration TRIGGERS EXECUTION");
 

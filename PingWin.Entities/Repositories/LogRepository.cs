@@ -1,4 +1,5 @@
-﻿using PingWin.Entities.Models;
+﻿using System;
+using PingWin.Entities.Models;
 
 namespace PingWin.Entities
 {
@@ -12,6 +13,18 @@ namespace PingWin.Entities
 
 				context.SaveChanges();
 			}
-		} 
+		}
+
+
+		public Log CreateLog(StatusEnum status, Exception exception = null)
+		{
+			var log = new Log();
+
+			log.DateTime = DateTime.Now;
+			log.Result = (int)status;
+
+			return log;
+		}
+
 	}
 }

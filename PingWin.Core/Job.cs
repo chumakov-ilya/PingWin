@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PingWin.Core.Triggers;
+using PingWin.Entities.Models;
 
 namespace PingWin.Core
 {
@@ -45,5 +46,9 @@ namespace PingWin.Core
 		}
 
 		//public event EventHandler OnSuccess = delegate { };
+		public void WriteSelfTo(Log log)
+		{
+			log.JobId = Id;
+		}
 	}
 }
