@@ -1,6 +1,6 @@
 ﻿namespace PingWin.Entities
 {
-	public enum ResultEnum
+	public enum StatusEnum
 	{
 		Success = 1,
 		Failure = 2,

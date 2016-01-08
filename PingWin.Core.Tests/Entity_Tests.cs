@@ -28,7 +28,7 @@ namespace PingWin.Core.Tests
 
 			var log = new Log();
 			log.JobId = 1;
-			log.Result = (int)ResultEnum.Success;
+			log.Result = (int)StatusEnum.Success;
 			log.DateTime = DateTime.Now;
 
 			repo.Save(log);

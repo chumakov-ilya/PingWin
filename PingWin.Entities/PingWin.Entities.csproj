@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extentions\ResultEnum.cs" />
+    <Compile Include="Extentions\StatusEnum.cs" />
     <Compile Include="Models\JobRecord.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\Mapping\JobRecordMap.cs" />
