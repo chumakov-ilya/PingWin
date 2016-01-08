@@ -29,7 +29,7 @@ namespace PingWin.Core.Tests
 			var log = new Log();
 			log.JobId = 1;
 			log.Result = (int)ResultEnum.Success;
-			log.Message = DateTime.Now.ToString();
+			log.DateTime = DateTime.Now;
 
 			repo.Save(log);
 		}

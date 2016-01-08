@@ -11,9 +11,6 @@ namespace PingWin.Entities.Models.Mapping
             this.HasKey(t => t.Id);
 
             // Properties
-            this.Property(t => t.Id)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-
             this.Property(t => t.Message)
                 .HasMaxLength(256);
 
@@ -24,6 +21,7 @@ namespace PingWin.Entities.Models.Mapping
             this.Property(t => t.Message).HasColumnName("Message");
             this.Property(t => t.Details).HasColumnName("Details");
             this.Property(t => t.JobId).HasColumnName("JobId");
+            this.Property(t => t.DateTime).HasColumnName("DateTime");
 
             // Relationships
             this.HasRequired(t => t.JobRecord)
