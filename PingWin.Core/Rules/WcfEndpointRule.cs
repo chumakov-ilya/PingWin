@@ -41,8 +41,8 @@ namespace PingWin.Core
 				else
 				{
 					var log = LogRepository.CreateLog(StatusEnum.Failure);
-					log.Message = $"HTTP StatusCode: {response.StatusCode}";
-					log.Details = response.ToString();
+					log.ShortData = $"HTTP StatusCode: {response.StatusCode}";
+					log.FullData = response.ToString();
 					return log;
 				}
 			}

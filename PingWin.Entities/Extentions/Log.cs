@@ -7,8 +7,8 @@ namespace PingWin.Entities.Models
 		[NotMapped]
 		public StatusEnum StatusEnum
 		{
-			get { return (StatusEnum) Result; } 
-			set { Result = (int) value; }
+			get { return (StatusEnum) Status; } 
+			set { Status = (int) value; }
 		}
 	}
 }

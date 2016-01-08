@@ -12,9 +12,9 @@ namespace PingWin.Core
 	{
 		public delegate void SuccessTrigger();
 
-		public Job(string name, IRule rule, int id)
+		public Job(string name, IRule rule, int recordId)
 		{
-			Id = id;
+			RecordId = recordId;
 			Name = name;
 			Rule = rule;
 			Triggers = new List<MailTrigger>();
@@ -22,7 +22,7 @@ namespace PingWin.Core
 			ErrorReportInterval = JobDefaultSettings.ErrorReportInterval;
 		}
 
-		public int Id { get; }
+		public int RecordId { get; }
 
 		public IRule Rule { get; }
 
@@ -48,7 +48,7 @@ namespace PingWin.Core
 		//public event EventHandler OnSuccess = delegate { };
 		public void WriteSelfTo(Log log)
 		{
-			log.JobId = Id;
+			log.JobRecordId = RecordId;
 		}
 	}
 }

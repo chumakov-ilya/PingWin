@@ -20,8 +20,8 @@ namespace PingWin.Entities
 		{
 			var log = new Log();
 
-			log.DateTime = DateTime.Now;
-			log.Result = (int)status;
+			log.DateTime = DateTime.Now.TruncateToSeconds();
+			log.StatusEnum = status;
 
 			return log;
 		}
