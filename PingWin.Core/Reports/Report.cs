@@ -24,6 +24,8 @@ namespace PingWin.Core
 
 			var list = ReportRepository.GetIntervalReport(to.AddHours(-1), to);
 
+			if (list.LogTotalCount == 0) return;
+
 			await SendMail(list);
 		}
 

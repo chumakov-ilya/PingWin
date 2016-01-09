@@ -39,8 +39,7 @@ namespace PingWin.Core
 			{
 				DateTime silenceUntil = DateTime.MinValue;
 
-				int index = 0;
-				while (index < 2)
+				while (true)
 				{
 					Trace.WriteLine("iteration START: " + job.Name);
 
@@ -77,8 +76,6 @@ namespace PingWin.Core
 					}
 
 					await Task.Delay(job.CheckInterval, cancellationToken);
-
-					index++;
 				}
 			}, cancellationToken);
 		}
