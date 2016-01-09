@@ -41,9 +41,11 @@ namespace PingWin.Entities
 				{
 					var row = new ReportRow();
 
-					row.First = query.OrderBy(l => l.DateTime).First();
-					row.Last = query.OrderByDescending(l => l.DateTime).First();
-					row.Count = query.Count();
+					var queryPerJob = query.Where(l => l.JobRecordId == jobId);
+
+					row.First = queryPerJob.OrderBy(l => l.DateTime).First();
+					row.Last = queryPerJob.OrderByDescending(l => l.DateTime).First();
+					row.Count = queryPerJob.Count();
 					row.JobId = jobId;
 					row.JobName = jobs.First(job => job.Id == jobId).Name;
 
