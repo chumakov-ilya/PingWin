@@ -13,15 +13,18 @@ namespace PingWin.Core
 		static ReportRunner()
 		{
 			LogRepository = new LogRepository();
+			Reports = new List<Report>();
 		}
 
-		static LogRepository LogRepository { get; set; }
+		private static LogRepository LogRepository { get; set; }
+
+		public static List<Report> Reports { get; set; }
 
 		public static void RunAll()
 		{
 			var tasks = new List<Task>();
 
-			Task.Delay(GetTimeUntilNextHour()).Wait();
+			//Task.Delay(GetTimeUntilNextHour()).Wait();
 
 			foreach (var report in Reports)
 			{
@@ -37,8 +40,6 @@ namespace PingWin.Core
 		{
 			return DateTime.Now.TruncateToHours().AddHours(1) - DateTime.Now;
 		}
-
-		public static List<Report> Reports { get; set; }
 
 		public static async Task RunOne(Report report)
 		{

@@ -13,6 +13,13 @@ namespace PingWin.Core.Triggers
 		{
 			string subject = "PingWin report: Danger!";
 
+			string body = GetBody(log);
+
+			await Mailer.SendMail(subject, body);
+		}
+
+		private static string GetBody(Log log)
+		{
 			var builder = new StringBuilder();
 
 			builder.AppendLine($"Failure: {log.ShortData}");
@@ -27,7 +34,7 @@ namespace PingWin.Core.Triggers
 			builder.AppendLine();
 			builder.AppendLine($"StackTrace: {log.StackTrace}");
 
-			await Mailer.SendMail(subject, builder.ToString());
+			return builder.ToString();
 		}
 	}
 }

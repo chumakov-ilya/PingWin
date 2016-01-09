@@ -14,21 +14,25 @@ namespace PingWin.Entities
 			JobRepository = new JobRepository();
 		}
 
-		public List<ReportRow> GetHourlyReport()
+		public ReportRowList GetHourlyReport()
 		{
 			DateTime hourAgo = DateTime.Now.AddHours(-1);
 
 			using (var context = new PingWinContext())
 			{
+				var list = new ReportRowList();
+
 				var logs = context.Logs.Where(l => l.DateTime > hourAgo);
+
+				list.LogTotalCount = logs.Count();
+
+				if (list.LogTotalCount == 0) return new ReportRowList();
 
 				List<int> jobIds = logs.Select(l => l.JobRecordId).ToList();
 
-				if (!jobIds.Any()) return new List<ReportRow>();
+				list.JobTotalCount = jobIds.Count;
 
 				var jobs = JobRepository.GetJobRecords();
-
-				var rows = new List<ReportRow>();
 
 				foreach (int jobId in jobIds)
 				{
@@ -37,12 +41,13 @@ namespace PingWin.Entities
 					row.First = logs.OrderBy(l => l.DateTime).First();
 					row.Last = logs.OrderByDescending(l => l.DateTime).First();
 					row.Count = logs.Count();
+					row.JobId = jobId;
 					row.JobName = jobs.First(job => job.Id == jobId).Name;
 
-					rows.Add(row);
+					list.Rows.Add(row);
 				}
 
-				return rows;
+				return list;
 			}
 
 		} 

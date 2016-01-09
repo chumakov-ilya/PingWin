@@ -8,5 +8,6 @@ namespace PingWin.Entities
 		public Log Last { get; set; }
 		public int Count { get; set; }
 		public string JobName { get; set; }
+		public int JobId { get; set; }
 	}
 }

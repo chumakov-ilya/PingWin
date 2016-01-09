@@ -57,6 +57,7 @@
     <Compile Include="Mail_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportRepository_Tests.cs" />
+    <Compile Include="ReportRunner_Tests.cs" />
     <Compile Include="Runner_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
