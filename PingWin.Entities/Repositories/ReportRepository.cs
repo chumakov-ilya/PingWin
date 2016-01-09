@@ -7,7 +7,14 @@ namespace PingWin.Entities
 {
 	public class ReportRepository
 	{
-		public void MyMethod()
+		public JobRepository JobRepository { get; set; }
+
+		public ReportRepository()
+		{
+			JobRepository = new JobRepository();
+		}
+
+		public List<ReportRow> GetHourlyReport()
 		{
 			DateTime hourAgo = DateTime.Now.AddHours(-1);
 
@@ -17,13 +24,25 @@ namespace PingWin.Entities
 
 				List<int> jobIds = logs.Select(l => l.JobRecordId).ToList();
 
+				if (!jobIds.Any()) return new List<ReportRow>();
+
+				var jobs = JobRepository.GetJobRecords();
+
+				var rows = new List<ReportRow>();
+
 				foreach (int jobId in jobIds)
 				{
-					var first = logs.OrderBy(l => l.DateTime).First();
-					var last = logs.OrderBy(l => l.DateTime).Last();
-					int count = logs.Count();
+					var row = new ReportRow();
+
+					row.First = logs.OrderBy(l => l.DateTime).First();
+					row.Last = logs.OrderByDescending(l => l.DateTime).First();
+					row.Count = logs.Count();
+					row.JobName = jobs.First(job => job.Id == jobId).Name;
+
+					rows.Add(row);
 				}
-				context.SaveChanges();
+
+				return rows;
 			}
 
 		} 
