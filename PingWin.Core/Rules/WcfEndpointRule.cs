@@ -8,6 +8,7 @@ using RestSharp;
 
 namespace PingWin.Core
 {
+	[Obsolete]
 	public class WcfEndpointRule : IRule
 	{
 		public string ServiceReference { get; private set; }
@@ -41,7 +42,7 @@ namespace PingWin.Core
 				else
 				{
 					var log = LogRepository.CreateLog(StatusEnum.Failure);
-					log.ShortData = $"HTTP StatusCode: {response.StatusCode}";
+					log.ShortData = $"HTTP StatusCode: {(int)response.StatusCode} {response.StatusCode}";
 					log.FullData = response.ToString();
 					return log;
 				}

@@ -69,15 +69,17 @@ namespace PingWin.Core
 
 				var response = await client.ExecuteTaskAsync(request);
 
-				if (response.StatusCode == HttpStatusCode.OK)
+				if ((int)response.StatusCode == Code)
 				{
 					return LogRepository.CreateLog(StatusEnum.Success);
 				}
 				else
 				{
 					var log = LogRepository.CreateLog(StatusEnum.Failure);
-					log.ShortData = $"HTTP StatusCode: {response.StatusCode}";
-					log.FullData = response.ToString();
+
+					log.ShortData = FailureDescription();
+					log.FullData = $"Actual HTTP code: {(int)response.StatusCode} {response.StatusCode}. Expected: {Code}.";
+
 					return log;
 				}
 			}
@@ -89,7 +91,7 @@ namespace PingWin.Core
 
 		public string FailureDescription()
 		{
-			return $"FAILURE: Inaccessible endpoint {Url}";
+			return $"Problem with URL: {Url}";
 		}
 	}
 }
