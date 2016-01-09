@@ -2,7 +2,7 @@
 
 namespace PingWin.Core.Tests
 {
-	public class ReportRunner_Tests
+	public class Report_Tests
 	{
 		[Test]
 		public void RunAll_Test()

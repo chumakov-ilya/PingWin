@@ -4,7 +4,7 @@ using PingWin.Core.Triggers;
 
 namespace PingWin.Core.Tests
 {
-	public class Runner_Tests
+	public class Job_Tests
 	{
 		[Test]
 		public void RunAll_Test()

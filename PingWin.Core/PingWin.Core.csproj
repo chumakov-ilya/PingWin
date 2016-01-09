@@ -57,6 +57,7 @@
     <Compile Include="Reports\Report.cs" />
     <Compile Include="Reports\ReportRunner.cs" />
     <Compile Include="Rules\IRule.cs" />
+    <Compile Include="Rules\HttpRequestRule.cs" />
     <Compile Include="Rules\WcfEndpointRule.cs" />
     <Compile Include="Rules\DbConnectionRule.cs" />
     <Compile Include="Jobs\JobRunner.cs" />
