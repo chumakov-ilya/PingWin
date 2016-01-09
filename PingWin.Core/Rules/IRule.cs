@@ -7,7 +7,6 @@ namespace PingWin.Core
 	{
 		Task<Log> Execute();
 
-		string FailureDescription();
-
+		//string FailureDescription();
 	}
 }

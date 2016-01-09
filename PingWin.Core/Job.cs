@@ -19,7 +19,7 @@ namespace PingWin.Core
 			Rule = rule;
 			Triggers = new List<MailTrigger>();
 			CheckInterval = JobDefaultSettings.CheckInterval;
-			ErrorReportInterval = JobDefaultSettings.ErrorReportInterval;
+			FailureSilenceInterval = JobDefaultSettings.FailureSilenceInterval;
 		}
 
 		public int RecordId { get; }
@@ -30,9 +30,9 @@ namespace PingWin.Core
 
 		public string Name { get; set; }
 
-		public int CheckInterval { get; set; }
+		public TimeSpan CheckInterval { get; set; }
 
-		public int ErrorReportInterval { get; set; }
+		public TimeSpan FailureSilenceInterval { get; set; }
 
 		public void AttachTrigger(MailTrigger trigger)
 		{

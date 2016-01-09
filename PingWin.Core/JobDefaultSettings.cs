@@ -1,9 +1,10 @@
-﻿namespace PingWin.Core
+﻿using System;
+
+namespace PingWin.Core
 {
 	internal static class JobDefaultSettings
 	{
-		public static int CheckInterval { get; } = 1;
-
-		public static int ErrorReportInterval { get; } = 300;
+		public static TimeSpan CheckInterval { get; } = TimeSpan.FromSeconds(5);
+		public static TimeSpan FailureSilenceInterval { get; } = TimeSpan.FromSeconds(300);
 	}
 }

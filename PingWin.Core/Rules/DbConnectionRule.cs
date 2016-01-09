@@ -34,7 +34,11 @@ namespace PingWin.Core
 				}
 				catch (SqlException exception)
 				{
-					return LogRepository.CreateLog(StatusEnum.Failure, exception);
+					var log = LogRepository.CreateLog(StatusEnum.Failure, exception);
+
+					log.ShortData = FailureDescription();
+
+					return log;
 				}
 			}
 			catch (Exception exception)
@@ -55,7 +59,7 @@ namespace PingWin.Core
 
 		public string FailureDescription()
 		{
-			return $"inaccessible database [{ConnectionString}].";
+			return $"Cann't open connection to [{ConnectionString}].";
 		}
 	}
 }

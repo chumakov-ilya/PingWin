@@ -12,7 +12,7 @@ namespace PingWin.Core.Tests
 			var registry = new JobRegistry();
 
 			registry.AddJob("pipe-wcf-ekey-v1", new WcfEndpointRule("https://sandbox.webstore.mont.ru/B2bService.svc"));
-			registry.AddJob("test-db-postory", new DbConnectionRule("Server=.;Database=PostoryDb;Trusted_Connection=True;"))
+			registry.AddJob("test-db-postory", new DbConnectionRule("Server=.;Database=PostoryDbX;Trusted_Connection=True;"))
 					.AttachTrigger(new MailTrigger());
 
 			Runner.RunAll(registry);

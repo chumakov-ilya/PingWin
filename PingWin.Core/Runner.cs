@@ -35,8 +35,6 @@ namespace PingWin.Core
 
 		public static async Task RunOne(CancellationToken cancellationToken, Job job)
 		{
-			var timerInterval = 5000;
-
 			await Task.Run(async () =>
 			{
 				int index = 0;
@@ -56,19 +54,17 @@ namespace PingWin.Core
 					{
 						Trace.WriteLine("iteration TRIGGERS EXECUTION");
 
-						var dt = DateTime.Now;
-
 						var tasks = new List<Task>();
 
 						foreach (var trigger in job.GetTriggers())
 						{
-							tasks.Add(trigger.Execute(dt));
+							tasks.Add(trigger.Execute(log));
 						}
 
 						Task.WaitAll(tasks.ToArray());
 					}
 
-					await Task.Delay(timerInterval, cancellationToken);
+					await Task.Delay(job.CheckInterval, cancellationToken);
 
 					index++;
 				}
