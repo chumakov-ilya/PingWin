@@ -30,9 +30,9 @@ namespace PingWin.Core
 
 		public string Name { get; set; }
 
-		public TimeSpan CheckInterval { get; set; }
+		public TimeSpan CheckInterval { get; }
 
-		public TimeSpan FailureSilenceInterval { get; set; }
+		public TimeSpan FailureSilenceInterval { get; }
 
 		public void AttachTrigger(MailTrigger trigger)
 		{

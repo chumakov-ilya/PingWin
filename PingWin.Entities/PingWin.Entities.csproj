@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Extentions\DateTime.cs" />
     <Compile Include="Extentions\Log.cs" />
+    <Compile Include="Extentions\ReportRow.cs" />
     <Compile Include="Extentions\StatusEnum.cs" />
     <Compile Include="Models\JobRecord.cs" />
     <Compile Include="Models\Log.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\JobRepository.cs" />
     <Compile Include="Repositories\LogRepository.cs" />
+    <Compile Include="Repositories\ReportRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
