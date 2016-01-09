@@ -11,7 +11,7 @@ namespace PingWin.Core.Triggers
 
 		public async Task Execute(Log log)
 		{
-			string subject = "PingWin report: Danger!";
+			string subject = "PingWin urgent report: Failure right now!";
 
 			string body = GetBody(log);
 

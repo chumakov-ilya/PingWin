@@ -6,12 +6,14 @@ using PingWin.Entities.Models;
 
 namespace PingWin.Core
 {
-	public class JobRegistry
+	public class JobRoot
 	{
-		public List<JobRecord> Records { get; set; }
-		public List<Job> Jobs { get; set; }
+		private List<JobRecord> Records { get; set; }
+		private List<Job> Jobs { get; set; }
 
-		public JobRegistry()
+		public static JobRoot Default { get; } = new JobRoot();
+
+		private JobRoot()
 		{
 			var repository = new JobRepository();
 
@@ -39,6 +41,11 @@ namespace PingWin.Core
 			if (record == null) throw new CoreException($"Job with name '{name}' cann't be registered. No record in db.");
 
 			throw new CoreException($"Cann't register the job '{name}'");
+		}
+
+		public void RunAll()
+		{
+			JobRunner.RunAll(Jobs);
 		}
 	}
 }

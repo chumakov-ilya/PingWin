@@ -11,7 +11,7 @@ namespace PingWin.Core
 	{
 		public Report()
 		{
-			RunInterval = TimeSpan.FromMinutes(1);
+			RunInterval = ReportDefaultSettings.RunInterval;
 
 			ReportRepository = new ReportRepository();
 		}

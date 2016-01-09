@@ -29,7 +29,7 @@ namespace PingWin.Entities
 
 				list.LogTotalCount = query.Count();
 
-				if (list.LogTotalCount == 0) return new ReportRowList();
+				if (list.LogTotalCount == 0) return list;
 
 				List<int> jobIds = query.Select(l => l.JobRecordId).ToList();
 

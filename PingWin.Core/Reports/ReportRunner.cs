@@ -1,32 +1,20 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 using PingWin.Entities;
-using PingWin.Entities.Models;
 
 namespace PingWin.Core
 {
-	public class ReportRunner
+	public static class ReportRunner
 	{
-		static ReportRunner()
-		{
-			LogRepository = new LogRepository();
-			Reports = new List<Report>();
-		}
-
-		private static LogRepository LogRepository { get; set; }
-
-		public static List<Report> Reports { get; set; }
-
-		public static void RunAll()
+		public static void RunAll(List<Report> reports)
 		{
 			var tasks = new List<Task>();
 
 			//Task.Delay(GetTimeUntilNextHour()).Wait();
 
-			foreach (var report in Reports)
+			foreach (var report in reports)
 			{
 				Task task = RunOne(report);
 

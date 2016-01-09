@@ -7,9 +7,11 @@ namespace PingWin.Core.Tests
 		[Test]
 		public void RunAll_Test()
 		{
-			ReportRunner.Reports.Add(new Report());
+			var root = ReportRoot.Default;
 
-			ReportRunner.RunAll();
+			root.AddReport(new Report());
+
+			root.RunAll();
 		} 
 	}
 }

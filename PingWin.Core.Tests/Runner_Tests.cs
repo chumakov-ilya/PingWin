@@ -9,13 +9,13 @@ namespace PingWin.Core.Tests
 		[Test]
 		public void RunAll_Test()
 		{
-			var registry = new JobRegistry();
+			var root = JobRoot.Default;
 
-			registry.AddJob("pipe-wcf-ekey-v1", new WcfEndpointRule("https://sandbox.webstore.mont.ru/B2bService.svc"));
-			registry.AddJob("test-db-postory", new DbConnectionRule("Server=.;Database=PostoryDbX;Trusted_Connection=True;"))
+			root.AddJob("pipe-wcf-ekey-v1", new WcfEndpointRule("https://sandbox.webstore.mont.ru/B2bService.svc"));
+			root.AddJob("test-db-postory", new DbConnectionRule("Server=.;Database=PostoryDbX;Trusted_Connection=True;"))
 					.AttachTrigger(new MailTrigger());
 
-			Runner.RunAll(registry);
+			root.RunAll();
 		}
 	}
 }

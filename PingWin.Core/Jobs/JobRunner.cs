@@ -8,24 +8,24 @@ using PingWin.Entities.Models;
 
 namespace PingWin.Core
 {
-	public class Runner
+	public class JobRunner
 	{
-		static Runner()
+		static JobRunner()
 		{
 			LogRepository = new LogRepository();
 		}
 
 		static LogRepository LogRepository { get; set; }
 
-		public static void RunAll(JobRegistry registry)
+		public static void RunAll(List<Job> jobs)
 		{
 			var cancellationToken = new CancellationToken();
 
 			var tasks = new List<Task>();
 
-			foreach (var job in registry.Jobs)
+			foreach (var job in jobs)
 			{
-				Task task = Runner.RunOne(cancellationToken, job);
+				Task task = JobRunner.RunOne(cancellationToken, job);
 
 				tasks.Add(task);
 			}
