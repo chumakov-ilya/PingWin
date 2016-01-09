@@ -11,14 +11,15 @@ namespace PingWin.Core.Triggers
 
 		public async Task Execute(Log log)
 		{
-			string subject = "Danger!";
+			string subject = "PingWin report: Danger!";
 
 			var builder = new StringBuilder();
 
 			builder.AppendLine($"Failure: {log.ShortData}");
+			builder.AppendLine();
 			builder.AppendLine($"DateTime: {log.DateTime}");
 			builder.AppendLine();
-			builder.AppendLine("Technical details:");
+			builder.AppendLine("Technical information:");
 			builder.AppendLine($"Status: {log.StatusEnum}");
 			builder.AppendLine($"ShortData: {log.ShortData}");
 			builder.AppendLine();

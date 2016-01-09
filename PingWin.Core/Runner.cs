@@ -37,10 +37,12 @@ namespace PingWin.Core
 		{
 			await Task.Run(async () =>
 			{
+				DateTime silenceUntil = DateTime.MinValue;
+
 				int index = 0;
 				while (index < 2)
 				{
-					Trace.WriteLine("iteration START");
+					Trace.WriteLine("iteration START: " + job.Name);
 
 					Func<Task<Log>> method = job.Rule.Execute;
 
@@ -50,18 +52,28 @@ namespace PingWin.Core
 						
 					LogRepository.Save(log);
 
+
 					if (log.StatusEnum != StatusEnum.Success)
 					{
-						Trace.WriteLine("iteration TRIGGERS EXECUTION");
-
-						var tasks = new List<Task>();
-
-						foreach (var trigger in job.GetTriggers())
+						if (silenceUntil < log.DateTime)
 						{
-							tasks.Add(trigger.Execute(log));
-						}
+							Trace.WriteLine("iteration TRIGGERS EXECUTION: " + job.Name);
 
-						Task.WaitAll(tasks.ToArray());
+							silenceUntil = log.DateTime + job.FailureSilenceInterval;
+
+							var tasks = new List<Task>();
+
+							foreach (var trigger in job.GetTriggers())
+							{
+								tasks.Add(trigger.Execute(log));
+							}
+
+							Task.WaitAll(tasks.ToArray());
+						}
+						else
+						{
+							Trace.WriteLine("iteration TRIGGERS SILENCE: " + job.Name);
+						}
 					}
 
 					await Task.Delay(job.CheckInterval, cancellationToken);
