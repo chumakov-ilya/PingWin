@@ -14,21 +14,24 @@ namespace PingWin.Entities
 			JobRepository = new JobRepository();
 		}
 
-		public ReportRowList GetHourlyReport()
+		public ReportRowList GetIntervalReport(DateTime begin, DateTime end)
 		{
-			DateTime hourAgo = DateTime.Now.AddHours(-1);
+			const int success = (int)StatusEnum.Success;
 
 			using (var context = new PingWinContext())
 			{
 				var list = new ReportRowList();
+				list.Begin = begin;
+				list.End = end;
 
-				var logs = context.Logs.Where(l => l.DateTime > hourAgo);
+				var query = context.Logs.Where(l => l.Status != success 
+					&& begin < l.DateTime && l.DateTime <= end);
 
-				list.LogTotalCount = logs.Count();
+				list.LogTotalCount = query.Count();
 
 				if (list.LogTotalCount == 0) return new ReportRowList();
 
-				List<int> jobIds = logs.Select(l => l.JobRecordId).ToList();
+				List<int> jobIds = query.Select(l => l.JobRecordId).ToList();
 
 				list.JobTotalCount = jobIds.Count;
 
@@ -38,9 +41,9 @@ namespace PingWin.Entities
 				{
 					var row = new ReportRow();
 
-					row.First = logs.OrderBy(l => l.DateTime).First();
-					row.Last = logs.OrderByDescending(l => l.DateTime).First();
-					row.Count = logs.Count();
+					row.First = query.OrderBy(l => l.DateTime).First();
+					row.Last = query.OrderByDescending(l => l.DateTime).First();
+					row.Count = query.Count();
 					row.JobId = jobId;
 					row.JobName = jobs.First(job => job.Id == jobId).Name;
 

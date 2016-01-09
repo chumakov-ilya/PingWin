@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using PingWin.Entities;
 
@@ -11,7 +12,8 @@ namespace PingWin.Core.Tests
 		{
 			var repo = new ReportRepository();
 
-			var rows = repo.GetHourlyReport();
+			DateTime to = DateTime.Now;
+			var rows = repo.GetIntervalReport(to.AddHours(-1), to);
 
 			Assert.IsNotNull(rows);
 		} 

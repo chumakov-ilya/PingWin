@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PingWin.Entities;
-using PingWin.Entities.Models;
 
 namespace PingWin.Core
 {
@@ -21,14 +20,16 @@ namespace PingWin.Core
 
 		public async Task ExecuteAsync()
 		{
-			var rows = ReportRepository.GetHourlyReport();
+			DateTime to = DateTime.Now;
 
-			await SendMail(rows);
+			var list = ReportRepository.GetIntervalReport(to.AddHours(-1), to);
+
+			await SendMail(list);
 		}
 
 		private async Task SendMail(ReportRowList list)
 		{
-			string subject = "PingWin hourly report: Failures!";
+			string subject = "PingWin regular report: Failures!";
 
 			string body = GetBody(list);
 
@@ -39,10 +40,10 @@ namespace PingWin.Core
 		{
 			var builder = new StringBuilder();
 
-			builder.AppendLine($"PingWin has recorded {list.LogTotalCount} failures at last hour.");
+			builder.AppendLine($"PingWin has recorded {list.LogTotalCount} failures at confugured interval.");
 
-			builder.AppendLine($"Interval begin: {DateTime.Now.AddHours(-1)}");
-			builder.AppendLine($"Interval end: {DateTime.Now}");
+			builder.AppendLine($"Interval begin: {list.Begin}");
+			builder.AppendLine($"Interval end: {list.End}");
 			builder.AppendLine();
 			builder.AppendLine("Technical information below in the following format:");
 			builder.AppendLine("<JOB_NAME>: <FAILURE_COUNT>    <FIRST_FAILURE_TIME>    <LAST_FAILURE_TIME>");

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PingWin.Entities
 {
@@ -13,5 +14,7 @@ namespace PingWin.Entities
 
 		public int LogTotalCount { get; set; }
 		public int JobTotalCount { get; set; }
+		public DateTime End { get; set; }
+		public DateTime Begin { get; set; }
 	}
 }

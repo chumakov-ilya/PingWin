@@ -47,9 +47,15 @@ namespace PingWin.Core
 			{
 				while (true)
 				{
+					//estimate report generation time to correct interval between runnings
+					var stopwatch = new Stopwatch();
+					stopwatch.Start();
 					await report.ExecuteAsync();
+					stopwatch.Stop();
 
-					await Task.Delay(report.RunInterval);
+					Trace.WriteLine(stopwatch.Elapsed);
+
+					await Task.Delay(report.RunInterval - stopwatch.Elapsed);
 				}
 			});
 		}
