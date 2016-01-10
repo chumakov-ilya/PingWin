@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using PingWin.Entities;
 using PingWin.Entities.Models;
 
@@ -8,11 +9,6 @@ namespace PingWin.Core
 {
 	public class JobRoot
 	{
-		private List<JobRecord> Records { get; set; }
-		private List<Job> Jobs { get; set; }
-
-		public static JobRoot Default { get; } = new JobRoot();
-
 		private JobRoot()
 		{
 			var repository = new JobRepository();
@@ -21,6 +17,11 @@ namespace PingWin.Core
 
 			Jobs = new List<Job>();
 		}
+
+		private List<JobRecord> Records { get; }
+		private List<Job> Jobs { get; }
+
+		public static JobRoot Default { get; } = new JobRoot();
 
 		public Job AddJob(string name, IRule rule)
 		{
@@ -43,9 +44,9 @@ namespace PingWin.Core
 			throw new CoreException($"Cann't register the job '{name}'");
 		}
 
-		public void RunAll()
+		public async Task RunAllAsync()
 		{
-			JobRunner.RunAll(Jobs);
+			await JobRunner.RunAllAsync(Jobs);
 		}
 	}
 }

@@ -35,7 +35,7 @@ namespace PingWin.Core
 
 			string body = GetBody(list);
 
-			await Mailer.SendMail(subject, body);
+			await Mailer.SendMailAsync(subject, body);
 		}
 
 		private string GetBody(ReportRowList list)

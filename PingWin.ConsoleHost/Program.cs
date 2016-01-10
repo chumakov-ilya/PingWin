@@ -31,7 +31,7 @@ namespace PingWin.ConsoleHost
 			root.AddJob("test-db-success", new DbConnectionRule("Server=.;Database=PostoryDb;Trusted_Connection=True;"));
 			root.AddJob("test-db-failure", new DbConnectionRule("Server=.;Database=PostoryDbX;Trusted_Connection=True;"));
 
-			root.RunAll();
+			//root.RunAll();
 		}
 
 		private static void RunReports()
@@ -40,7 +40,7 @@ namespace PingWin.ConsoleHost
 
 			root.AddReport(new Report());
 
-			Task.Run(() => root.RunAll());
+			Task.Run(() => root.RunAllAsync());
 		}
 	}
 }

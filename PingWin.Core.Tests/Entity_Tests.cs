@@ -31,7 +31,7 @@ namespace PingWin.Core.Tests
 			log.StatusEnum = StatusEnum.Success;
 			log.DateTime = DateTime.Now;
 
-			repo.Save(log);
+			repo.SaveAsync(log);
 		}
 	}
 }

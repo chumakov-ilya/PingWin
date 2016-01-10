@@ -5,7 +5,7 @@ namespace PingWin.Core
 {
 	public interface IRule
 	{
-		Task<Log> Execute();
+		Task<Log> ExecuteAsync();
 
 		//string FailureDescription();
 	}

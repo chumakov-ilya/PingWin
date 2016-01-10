@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using PingWin.Entities;
 
 namespace PingWin.Core
@@ -18,9 +19,9 @@ namespace PingWin.Core
 
 		private List<Report> Reports { get; set; }
 
-		public void RunAll()
+		public async Task RunAllAsync()
 		{
-			ReportRunner.RunAll(Reports);
+			await ReportRunner.RunAllAsync(Reports);
 		}
 
 		public void AddReport(Report report)

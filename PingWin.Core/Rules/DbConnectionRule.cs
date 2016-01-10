@@ -18,7 +18,7 @@ namespace PingWin.Core
 			LogRepository = new LogRepository();
 		}
 
-		public async Task<Log> Execute()
+		public async Task<Log> ExecuteAsync()
 		{
 			try
 			{

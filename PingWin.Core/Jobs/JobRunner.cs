@@ -17,23 +17,21 @@ namespace PingWin.Core
 
 		private static LogRepository LogRepository { get; }
 
-		public static void RunAll(List<Job> jobs)
+		public static async Task RunAllAsync(List<Job> jobs)
 		{
-			var cancellationToken = new CancellationToken();
-
 			var tasks = new List<Task>();
 
 			foreach (var job in jobs)
 			{
-				Task task = RunOne(cancellationToken, job);
+				Task task = RunJobAsync(job);
 
 				tasks.Add(task);
 			}
 
-			Task.WaitAll(tasks.ToArray(), cancellationToken);
+			await Task.WhenAll(tasks);
 		}
 
-		public static async Task RunOne(CancellationToken cancellationToken, Job job)
+		public static async Task RunJobAsync(Job job)
 		{
 			await Task.Run(async () =>
 			{
@@ -43,14 +41,11 @@ namespace PingWin.Core
 				{
 					Trace.WriteLine("iteration START: " + job.Name);
 
-					Func<Task<Log>> method = job.Rule.Execute;
-
-					Log log = await Task.Run(method, cancellationToken);
+					Log log = await job.Rule.ExecuteAsync();
 
 					job.WriteSelfTo(log);
 
-					LogRepository.Save(log);
-
+					await LogRepository.SaveAsync(log);
 
 					if (log.StatusEnum != StatusEnum.Success)
 					{
@@ -64,10 +59,10 @@ namespace PingWin.Core
 
 							foreach (var trigger in job.GetTriggers())
 							{
-								tasks.Add(trigger.Execute(log, silence));
+								tasks.Add(trigger.ExecuteAsync(log, silence));
 							}
 
-							Task.WaitAll(tasks.ToArray());
+							await Task.WhenAll(tasks);
 
 							silence.ResetCounter();
 						}
@@ -78,9 +73,9 @@ namespace PingWin.Core
 						}
 					}
 
-					await Task.Delay(job.CheckInterval, cancellationToken);
+					await Task.Delay(job.CheckInterval);
 				}
-			}, cancellationToken);
+			});
 		}
 	}
 }

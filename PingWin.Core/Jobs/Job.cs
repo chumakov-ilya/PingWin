@@ -29,15 +29,16 @@ namespace PingWin.Core
 
 		public string Name { get; set; }
 
-		public TimeSpan CheckInterval { get; }
+		public TimeSpan CheckInterval { get; private set; }
 
-		public TimeSpan FailureSilenceInterval { get; }
+		public TimeSpan FailureSilenceInterval { get; private set; }
 
-		public void AttachTrigger(MailTrigger trigger)
+		public Job AttachTrigger(MailTrigger trigger)
 		{
 			trigger.Job = this;
 			trigger.Rule = Rule;
 			Triggers.Add(trigger);
+			return this;
 		}
 
 		public List<MailTrigger> GetTriggers()
@@ -49,6 +50,20 @@ namespace PingWin.Core
 		public void WriteSelfTo(Log log)
 		{
 			log.JobRecordId = RecordId;
+		}
+
+		public Job SetCheckIntervalSeconds(int value)
+		{
+			CheckInterval = TimeSpan.FromSeconds(value);
+
+			return this;
+		}
+
+		public Job SetFailureSilenceIntervalSeconds(int value)
+		{
+			FailureSilenceInterval = TimeSpan.FromSeconds(value);
+
+			return this;
 		}
 	}
 }

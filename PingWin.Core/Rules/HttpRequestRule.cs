@@ -55,7 +55,7 @@ namespace PingWin.Core
 			return this;
 		}
 
-		public async Task<Log> Execute()
+		public async Task<Log> ExecuteAsync()
 		{
 			try
 			{

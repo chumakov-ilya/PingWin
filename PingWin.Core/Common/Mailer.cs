@@ -6,7 +6,7 @@ namespace PingWin.Core
 {
 	public class Mailer
 	{
-		public static async Task SendMail(string subject, string body)
+		public static async Task SendMailAsync(string subject, string body)
 		{
 			var config = new ConfigurationHelper();
 

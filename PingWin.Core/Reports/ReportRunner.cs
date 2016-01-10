@@ -8,7 +8,7 @@ namespace PingWin.Core
 {
 	public static class ReportRunner
 	{
-		public static void RunAll(List<Report> reports)
+		public static async Task RunAllAsync(List<Report> reports)
 		{
 			var tasks = new List<Task>();
 
@@ -16,12 +16,12 @@ namespace PingWin.Core
 
 			foreach (var report in reports)
 			{
-				Task task = RunOne(report);
+				Task task = RunReportAsync(report);
 
 				tasks.Add(task);
 			}
 
-			Task.WaitAll(tasks.ToArray());
+			await Task.WhenAll(tasks);
 		}
 
 		public static TimeSpan GetTimeUntilNextHour()
@@ -29,7 +29,7 @@ namespace PingWin.Core
 			return DateTime.Now.TruncateToHours().AddHours(1) - DateTime.Now;
 		}
 
-		public static async Task RunOne(Report report)
+		public static async Task RunReportAsync(Report report)
 		{
 			await Task.Run(async () =>
 			{

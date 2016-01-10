@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Threading.Tasks;
 using PingWin.Entities.Models;
 
 namespace PingWin.Entities
 {
 	public class LogRepository
 	{
-		public void Save(Log log)
+		public async Task SaveAsync(Log log)
 		{
 			using (var context = new PingWinContext())
 			{
 				context.Logs.Add(log);
 
-				context.SaveChanges();
+				await context.SaveChangesAsync();
 			}
 		}
 

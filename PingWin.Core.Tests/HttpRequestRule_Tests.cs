@@ -10,7 +10,7 @@ namespace PingWin.Core.Tests
 			HttpRequestRule rule = new HttpRequestRule("http://httpbin.org/post");
 			rule.SetMethod("POST");
 
-			rule.Execute().Wait();
+			rule.ExecuteAsync().Wait();
 		} 
 	}
 }
