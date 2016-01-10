@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbConnectionRule_Tests.cs" />
     <Compile Include="Entity_Tests.cs" />
     <Compile Include="HttpRequestRule_Tests.cs" />
     <Compile Include="Mailer_Tests.cs" />
