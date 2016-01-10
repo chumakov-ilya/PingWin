@@ -15,7 +15,7 @@ namespace PingWin.Core
 			LogRepository = new LogRepository();
 		}
 
-		static LogRepository LogRepository { get; set; }
+		private static LogRepository LogRepository { get; }
 
 		public static void RunAll(List<Job> jobs)
 		{
@@ -25,7 +25,7 @@ namespace PingWin.Core
 
 			foreach (var job in jobs)
 			{
-				Task task = JobRunner.RunOne(cancellationToken, job);
+				Task task = RunOne(cancellationToken, job);
 
 				tasks.Add(task);
 			}
@@ -37,7 +37,7 @@ namespace PingWin.Core
 		{
 			await Task.Run(async () =>
 			{
-				DateTime silenceUntil = DateTime.MinValue;
+				var silence = new SilenceTime();
 
 				while (true)
 				{
@@ -48,17 +48,17 @@ namespace PingWin.Core
 					Log log = await Task.Run(method, cancellationToken);
 
 					job.WriteSelfTo(log);
-						
+
 					LogRepository.Save(log);
 
 
 					if (log.StatusEnum != StatusEnum.Success)
 					{
-						if (silenceUntil < log.DateTime)
+						if (silence.IsSilenceNow(log.DateTime))
 						{
 							Trace.WriteLine("iteration TRIGGERS EXECUTION: " + job.Name);
 
-							silenceUntil = log.DateTime + job.FailureSilenceInterval;
+							silence.UntilNow( log.DateTime + job.FailureSilenceInterval);
 
 							var tasks = new List<Task>();
 
@@ -68,10 +68,13 @@ namespace PingWin.Core
 							}
 
 							Task.WaitAll(tasks.ToArray());
+
+							silence.ResetCounter();
 						}
 						else
 						{
 							Trace.WriteLine("iteration TRIGGERS SILENCE: " + job.Name);
+							silence.IncreaseCounter();
 						}
 					}
 

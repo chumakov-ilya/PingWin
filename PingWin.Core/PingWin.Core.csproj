@@ -51,6 +51,7 @@
     <Compile Include="Jobs\JobDefaultSettings.cs" />
     <Compile Include="Jobs\JobRoot.cs" />
     <Compile Include="Common\Mailer.cs" />
+    <Compile Include="Jobs\SilenceTime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\ReportDefaultSettings.cs" />
     <Compile Include="Reports\ReportRoot.cs" />
