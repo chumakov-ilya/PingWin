@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Common\ConfigurationHelper.cs" />
     <Compile Include="Common\CoreException.cs" />
+    <Compile Include="Jobs\IJob.cs" />
     <Compile Include="Jobs\Job.cs" />
     <Compile Include="Jobs\JobDefaultSettings.cs" />
     <Compile Include="Jobs\JobRoot.cs" />

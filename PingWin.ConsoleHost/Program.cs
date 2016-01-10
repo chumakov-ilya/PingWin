@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PingWin.Core;
-using PingWin.Core.Triggers;
 
 namespace PingWin.ConsoleHost
 {

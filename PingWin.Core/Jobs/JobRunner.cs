@@ -58,13 +58,13 @@ namespace PingWin.Core
 						{
 							Trace.WriteLine("iteration TRIGGERS EXECUTION: " + job.Name);
 
-							silence.UntilNow( log.DateTime + job.FailureSilenceInterval);
+							silence.SetUntil( log.DateTime + job.FailureSilenceInterval);
 
 							var tasks = new List<Task>();
 
 							foreach (var trigger in job.GetTriggers())
 							{
-								tasks.Add(trigger.Execute(log));
+								tasks.Add(trigger.Execute(log, silence));
 							}
 
 							Task.WaitAll(tasks.ToArray());

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using PingWin.Core.Triggers;
 
 namespace PingWin.Core.Tests
 {

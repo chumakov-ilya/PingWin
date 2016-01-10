@@ -2,11 +2,18 @@ using System;
 
 namespace PingWin.Core
 {
-	internal class SilenceTime
+	public interface ISilenceInfo
 	{
-		public DateTime Until { get; set; } = DateTime.MinValue;
+		DateTime Until { get; }
+		int Counter { get; }
+		bool IsSilenceNow(DateTime now);
+	}
 
-		private int Counter { get; set; } = 0;
+	internal class SilenceTime : ISilenceInfo
+	{
+		public DateTime Until { get; private set; } = DateTime.MinValue;
+
+		public int Counter { get; private set; } = 0;
 
 		public bool IsSilenceNow(DateTime now)
 		{
@@ -14,7 +21,7 @@ namespace PingWin.Core
 		}
 
 		/// <summary>
-		/// increase to 1 the count of muted messages.
+		///     increase to 1 the count of muted messages.
 		/// </summary>
 		public void IncreaseCounter()
 		{
@@ -22,14 +29,14 @@ namespace PingWin.Core
 		}
 
 		/// <summary>
-		/// set count of muted messages to 0.
+		///     set count of muted messages to 0.
 		/// </summary>
 		public void ResetCounter()
 		{
 			Counter = 0;
 		}
 
-		public void UntilNow(DateTime dateTime)
+		public void SetUntil(DateTime dateTime)
 		{
 			Until = dateTime;
 		}

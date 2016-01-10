@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PingWin.Core.Triggers;
 using PingWin.Entities.Models;
 
 namespace PingWin.Core
 {
-	public class Job
+	public class Job : IJob
 	{
 		public delegate void SuccessTrigger();
 
@@ -36,6 +35,7 @@ namespace PingWin.Core
 
 		public void AttachTrigger(MailTrigger trigger)
 		{
+			trigger.Job = this;
 			trigger.Rule = Rule;
 			Triggers.Add(trigger);
 		}
