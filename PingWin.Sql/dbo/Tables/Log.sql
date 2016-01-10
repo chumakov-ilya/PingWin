@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Log] (
     [Id]          INT            IDENTITY (1, 1) NOT NULL,
     [Status]      INT            NOT NULL,
-    [ShortData]   NVARCHAR (256) NULL,
+    [Message]     NVARCHAR (256) NULL,
     [FullData]    NVARCHAR (MAX) NULL,
     [StackTrace]  NVARCHAR (MAX) NULL,
     [JobRecordId] INT            NOT NULL,
@@ -9,6 +9,8 @@
     CONSTRAINT [PK_Log] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Log_JobRecord] FOREIGN KEY ([JobRecordId]) REFERENCES [dbo].[JobRecord] ([Id])
 );
+
+
 
 
 GO
