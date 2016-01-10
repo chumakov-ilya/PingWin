@@ -8,6 +8,13 @@ namespace PingWin.Core
 {
 	public static class ReportRunner
 	{
+		static ReportRunner()
+		{
+			SystemLogRepository = new SystemLogRepository();
+		}
+
+		public static SystemLogRepository SystemLogRepository { get; set; }
+
 		public static async Task RunAllAsync(List<Report> reports)
 		{
 			var tasks = new List<Task>();
@@ -16,9 +23,7 @@ namespace PingWin.Core
 			{
 				if(report.DelayedStart) await Task.Delay(GetTimeUntilNextHour());
 
-				Task task = RunReportAsync(report);
-
-				tasks.Add(task);
+				tasks.Add(Task.Run(async () => await RunReportAsync(report)));
 			}
 
 			await Task.WhenAll(tasks);
@@ -31,7 +36,7 @@ namespace PingWin.Core
 
 		public static async Task RunReportAsync(Report report)
 		{
-			await Task.Run(async () =>
+			try
 			{
 				while (true)
 				{
@@ -45,7 +50,11 @@ namespace PingWin.Core
 
 					await CoreEx.DelayIfNeeded(report.RunInterval, stopwatch.Elapsed);
 				}
-			});
+			}
+			catch (Exception exception)
+			{
+				await SystemLogRepository.SaveAsync(exception, $"Unhandled report error.");
+			}
 		}
 	}
 }

@@ -14,20 +14,23 @@ namespace PingWin.Core
 		static JobRunner()
 		{
 			LogRepository = new LogRepository();
+			SystemLogRepository = new SystemLogRepository();
 		}
+
+		private static SystemLogRepository SystemLogRepository { get; set; }
 
 		private static LogRepository LogRepository { get; }
 
 		public static async Task RunAllAsync(List<Job> jobs)
 		{
-			var tasks = jobs.Select(RunJobAsync).ToList();
+			var tasks = jobs.Select(job => Task.Run(async () => await RunJobAsync(job))).ToList();
 
 			await Task.WhenAll(tasks);
 		}
 
 		public static async Task RunJobAsync(Job job)
 		{
-			await Task.Run(async () =>
+			try
 			{
 				var silence = new SilenceTime();
 
@@ -55,7 +58,11 @@ namespace PingWin.Core
 
 					await CoreEx.DelayIfNeeded(job.CheckInterval, stopwatch.Elapsed);
 				}
-			});
+			}
+			catch (Exception exception)
+			{
+				await SystemLogRepository.SaveAsync(exception, $"Unhandled job error. Job = [{job.Name}].");
+			}
 		}
 
 		private static async Task<Log> ExecuteRuleAsync(Job job)
@@ -101,11 +108,7 @@ namespace PingWin.Core
 			}
 			catch (Exception exception)
 			{
-				//string message = $"Unhandled trigger error. Job = [{job.Name}].";
-
-				//var log = LogRepository.CreateLog(StatusEnum.InternalError, exception, message);
-
-				//LogRepository.SaveAsync(log);
+				await SystemLogRepository.SaveAsync(exception, $"Unhandled trigger error. Job = [{job.Name}].");
 			}
 		}
 	}
