@@ -17,16 +17,23 @@ namespace PingWin.Core
 
 		public static async Task RunAllAsync(List<Report> reports)
 		{
-			var tasks = new List<Task>();
-
-			foreach (var report in reports)
+			try
 			{
-				if(report.DelayedStart) await Task.Delay(GetTimeUntilNextHour());
+				var tasks = new List<Task>();
 
-				tasks.Add(Task.Run(async () => await RunReportAsync(report)));
+				foreach (var report in reports)
+				{
+					if (report.DelayedStart) await Task.Delay(GetTimeUntilNextHour());
+
+					tasks.Add(Task.Run(async () => await RunReportAsync(report)));
+				}
+
+				await Task.WhenAll(tasks);
 			}
-
-			await Task.WhenAll(tasks);
+			catch (Exception exception)
+			{
+				await SystemLogRepository.SaveAsync(exception, $"Fatal report runner error. Reports are stopped until restart.");
+			}
 		}
 
 		public static TimeSpan GetTimeUntilNextHour()
@@ -36,9 +43,9 @@ namespace PingWin.Core
 
 		public static async Task RunReportAsync(Report report)
 		{
-			try
+			while (true)
 			{
-				while (true)
+				try
 				{
 					//estimate report generation time to correct interval between runnings
 					var stopwatch = new Stopwatch();
@@ -50,10 +57,12 @@ namespace PingWin.Core
 
 					await CoreEx.DelayIfNeeded(report.RunInterval, stopwatch.Elapsed);
 				}
-			}
-			catch (Exception exception)
-			{
-				await SystemLogRepository.SaveAsync(exception, $"Unhandled report error.");
+				catch (Exception exception)
+				{
+					await SystemLogRepository.SaveAsync(exception, $"Unhandled report error.");
+					
+					await Task.Delay(TimeSpan.FromMinutes(10)); //TODO to config
+				}
 			}
 		}
 	}

@@ -23,18 +23,25 @@ namespace PingWin.Core
 
 		public static async Task RunAllAsync(List<Job> jobs)
 		{
-			var tasks = jobs.Select(job => Task.Run(async () => await RunJobAsync(job))).ToList();
+			try
+			{
+				var tasks = jobs.Select(job => Task.Run(async () => await RunJobAsync(job))).ToList();
 
-			await Task.WhenAll(tasks);
+				await Task.WhenAll(tasks);
+			}
+			catch (Exception exception)
+			{
+				await SystemLogRepository.SaveAsync(exception, $"Fatal job runner error. Jobs are stopped until restart.");
+			}
 		}
 
 		public static async Task RunJobAsync(Job job)
 		{
-			try
-			{
-				var silence = new SilenceTime();
+			var silence = new SilenceTime();
 
-				while (true)
+			while (true)
+			{
+				try
 				{
 					Trace.WriteLine("iteration START: " + job.Name);
 
@@ -58,10 +65,12 @@ namespace PingWin.Core
 
 					await CoreEx.DelayIfNeeded(job.CheckInterval, stopwatch.Elapsed);
 				}
-			}
-			catch (Exception exception)
-			{
-				await SystemLogRepository.SaveAsync(exception, $"Unhandled job error. Job = [{job.Name}].");
+				catch (Exception exception)
+				{
+					await SystemLogRepository.SaveAsync(exception, $"Unhandled job error. Job = [{job.Name}].");
+
+					await Task.Delay(TimeSpan.FromMinutes(10)); //TODO to config
+				}
 			}
 		}
 
