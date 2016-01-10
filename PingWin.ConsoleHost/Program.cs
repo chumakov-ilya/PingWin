@@ -24,21 +24,18 @@ namespace PingWin.ConsoleHost
 			root.AddJob("test-http-success", 
 				new HttpRequestRule("http://httpbin.org/post").SetMethod("POST").ExpectCode(200))
 				.AttachTrigger(new MailTrigger())
-					.SetCheckIntervalSeconds(1)
-					.SetFailureSilenceIntervalSeconds(5);
+					.SetDebugSettings();
 
 			root.AddJob("test-http-failure", 
 				new HttpRequestRule("http://httpbin.org/post"))
 				.AttachTrigger(new MailTrigger())
-					.SetCheckIntervalSeconds(1)
-					.SetFailureSilenceIntervalSeconds(5);
+					.SetDebugSettings();
 
 			root.AddJob("test-db-success", new DbConnectionRule("Server=.;Database=PostoryDb;Trusted_Connection=True;"))
-					.SetCheckIntervalSeconds(1)
-					.SetFailureSilenceIntervalSeconds(5);
+					.SetDebugSettings();
+
 			root.AddJob("test-db-failure", new DbConnectionRule("Server=.;Database=PostoryDbX;Trusted_Connection=True;"))
-					.SetCheckIntervalSeconds(1)
-					.SetFailureSilenceIntervalSeconds(5);
+					.SetDebugSettings();
 
 			await root.RunAllAsync();
 		}
@@ -47,7 +44,8 @@ namespace PingWin.ConsoleHost
 		{
 			var root = ReportRoot.Default;
 
-			root.AddReport(new Report());
+			root.AddReport(new Report())
+				.Delayed(false);
 
 			await root.RunAllAsync();
 		}

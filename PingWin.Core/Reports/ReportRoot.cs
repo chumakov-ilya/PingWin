@@ -24,9 +24,11 @@ namespace PingWin.Core
 			await ReportRunner.RunAllAsync(Reports);
 		}
 
-		public void AddReport(Report report)
+		public Report AddReport(Report report)
 		{
 			Reports.Add(report);
+
+			return report;
 		}
 	}
 }

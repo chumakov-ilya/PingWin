@@ -12,10 +12,10 @@ namespace PingWin.Core
 		{
 			var tasks = new List<Task>();
 
-			//Task.Delay(GetTimeUntilNextHour()).Wait();
-
 			foreach (var report in reports)
 			{
+				if(report.DelayedStart) await Task.Delay(GetTimeUntilNextHour());
+
 				Task task = RunReportAsync(report);
 
 				tasks.Add(task);

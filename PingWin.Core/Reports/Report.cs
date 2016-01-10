@@ -62,5 +62,13 @@ namespace PingWin.Core
 
 
 		public TimeSpan RunInterval { get; }
+
+		public Report Delayed(bool value)
+		{
+			DelayedStart = value;
+			return this;
+		}
+
+		public bool DelayedStart { get; set; }
 	}
 }

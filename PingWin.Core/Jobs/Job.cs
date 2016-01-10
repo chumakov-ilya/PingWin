@@ -65,5 +65,13 @@ namespace PingWin.Core
 
 			return this;
 		}
+
+		public Job SetDebugSettings()
+		{
+			SetCheckIntervalSeconds(1)
+			.SetFailureSilenceIntervalSeconds(5);
+
+			return this;
+		}
 	}
 }
