@@ -12,7 +12,7 @@ namespace PingWin.Core
 		{
 			var tasks = new List<Task>();
 
-			Task.Delay(GetTimeUntilNextHour()).Wait();
+			//Task.Delay(GetTimeUntilNextHour()).Wait();
 
 			foreach (var report in reports)
 			{

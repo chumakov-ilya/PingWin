@@ -31,7 +31,7 @@ namespace PingWin.Entities
 
 				if (list.LogTotalCount == 0) return list;
 
-				List<int> jobIds = query.Select(l => l.JobRecordId).ToList();
+				List<int> jobIds = query.Select(l => l.JobRecordId).Distinct().ToList();
 
 				list.JobTotalCount = jobIds.Count;
 
