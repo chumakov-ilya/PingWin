@@ -43,7 +43,7 @@ namespace PingWin.Core
 
 					Trace.WriteLine(stopwatch.Elapsed);
 
-					await Task.Delay(report.RunInterval - stopwatch.Elapsed);
+					await CoreEx.DelayIfNeeded(report.RunInterval, stopwatch.Elapsed);
 				}
 			});
 		}

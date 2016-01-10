@@ -41,6 +41,10 @@ namespace PingWin.Core
 				{
 					Trace.WriteLine("iteration START: " + job.Name);
 
+					//estimate report generation time to correct interval between runnings
+					var stopwatch = new Stopwatch();
+					stopwatch.Start();
+
 					Log log = await job.Rule.ExecuteAsync();
 
 					job.WriteSelfTo(log);
@@ -73,7 +77,11 @@ namespace PingWin.Core
 						}
 					}
 
-					await Task.Delay(job.CheckInterval);
+					stopwatch.Stop();
+
+					Trace.WriteLine(stopwatch.Elapsed);
+
+					await CoreEx.DelayIfNeeded(job.CheckInterval, stopwatch.Elapsed);
 				}
 			});
 		}
