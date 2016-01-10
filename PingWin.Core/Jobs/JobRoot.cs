@@ -44,6 +44,11 @@ namespace PingWin.Core
 			throw new CoreException($"Cann't register the job '{name}'");
 		}
 
+		//private void SetGlobalSettings(Job job)
+		//{
+		//	if (job.LogSuccess == null) job.LogSuccess = this.LogSuccess;
+		//}
+
 		public async Task RunAllAsync()
 		{
 			await JobRunner.RunAllAsync(Jobs);

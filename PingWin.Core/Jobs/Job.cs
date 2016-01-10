@@ -9,8 +9,6 @@ namespace PingWin.Core
 {
 	public class Job : IJob
 	{
-		public delegate void SuccessTrigger();
-
 		public Job(string name, IRule rule, int recordId)
 		{
 			RecordId = recordId;
@@ -21,11 +19,16 @@ namespace PingWin.Core
 			FailureSilenceInterval = JobDefaultSettings.FailureSilenceInterval;
 		}
 
+		private List<MailTrigger> Triggers { get; }
+
+		/// <summary>
+		///     Default: false
+		/// </summary>
+		public bool LogSuccess { get; set; }
+
 		public int RecordId { get; }
 
 		public IRule Rule { get; }
-
-		private List<MailTrigger> Triggers { get; }
 
 		public string Name { get; set; }
 
@@ -33,17 +36,17 @@ namespace PingWin.Core
 
 		public TimeSpan FailureSilenceInterval { get; private set; }
 
+		public List<MailTrigger> GetTriggers()
+		{
+			return Triggers;
+		}
+
 		public Job AttachTrigger(MailTrigger trigger)
 		{
 			trigger.Job = this;
 			trigger.Rule = Rule;
 			Triggers.Add(trigger);
 			return this;
-		}
-
-		public List<MailTrigger> GetTriggers()
-		{
-			return Triggers;
 		}
 
 		//public event EventHandler OnSuccess = delegate { };
@@ -69,8 +72,19 @@ namespace PingWin.Core
 		public Job SetDebugSettings()
 		{
 			SetCheckIntervalSeconds(1)
-			.SetFailureSilenceIntervalSeconds(5);
+				.SetFailureSilenceIntervalSeconds(5);
 
+			return this;
+		}
+
+		/// <summary>
+		///     Default: false
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public Job SetLogSuccess(bool value)
+		{
+			LogSuccess = value;
 			return this;
 		}
 	}

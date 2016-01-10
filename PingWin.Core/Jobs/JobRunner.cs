@@ -49,33 +49,11 @@ namespace PingWin.Core
 
 					job.WriteSelfTo(log);
 
-					await LogRepository.SaveAsync(log);
+					bool success = log.StatusEnum == StatusEnum.Success;
 
-					if (log.StatusEnum != StatusEnum.Success)
-					{
-						if (silence.IsSilenceNow(log.DateTime))
-						{
-							Trace.WriteLine("iteration TRIGGERS EXECUTION: " + job.Name);
+					if (!success || job.LogSuccess) await LogRepository.SaveAsync(log);
 
-							silence.SetUntil( log.DateTime + job.FailureSilenceInterval);
-
-							var tasks = new List<Task>();
-
-							foreach (var trigger in job.GetTriggers())
-							{
-								tasks.Add(trigger.ExecuteAsync(log, silence));
-							}
-
-							await Task.WhenAll(tasks);
-
-							silence.ResetCounter();
-						}
-						else
-						{
-							Trace.WriteLine("iteration TRIGGERS SILENCE: " + job.Name);
-							silence.IncreaseCounter();
-						}
-					}
+					if (!success) await PullTriggers(job, silence, log);
 
 					stopwatch.Stop();
 
@@ -84,6 +62,32 @@ namespace PingWin.Core
 					await CoreEx.DelayIfNeeded(job.CheckInterval, stopwatch.Elapsed);
 				}
 			});
+		}
+
+		private static async Task PullTriggers(Job job, SilenceTime silence, Log log)
+		{
+			if (silence.IsSilenceNow(log.DateTime))
+			{
+				Trace.WriteLine("iteration TRIGGERS EXECUTION: " + job.Name);
+
+				silence.SetUntil(log.DateTime + job.FailureSilenceInterval);
+
+				var tasks = new List<Task>();
+
+				foreach (var trigger in job.GetTriggers())
+				{
+					tasks.Add(trigger.ExecuteAsync(log, silence));
+				}
+
+				await Task.WhenAll(tasks);
+
+				silence.ResetCounter();
+			}
+			else
+			{
+				Trace.WriteLine("iteration TRIGGERS SILENCE: " + job.Name);
+				silence.IncreaseCounter();
+			}
 		}
 	}
 }
