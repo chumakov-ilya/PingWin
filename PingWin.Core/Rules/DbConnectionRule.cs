@@ -34,7 +34,7 @@ namespace PingWin.Core
 			{
 				var log = LogRepository.CreateLog(StatusEnum.Failure, exception);
 
-				log.ShortData = FailureDescription();
+				log.Message = FailureDescription();
 
 				return log;
 			}

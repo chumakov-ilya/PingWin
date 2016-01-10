@@ -17,13 +17,13 @@ namespace PingWin.Entities
 		}
 
 
-		public Log CreateLog(StatusEnum status, Exception exception = null, string shortData = null)
+		public Log CreateLog(StatusEnum status, Exception exception = null, string message = null)
 		{
 			var log = new Log();
 
 			log.DateTime = DateTime.Now.TruncateToSeconds();
 			log.StatusEnum = status;
-			log.ShortData = shortData;
+			log.Message = message;
 
 			if (exception != null)
 			{

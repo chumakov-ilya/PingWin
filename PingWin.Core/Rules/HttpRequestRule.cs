@@ -75,7 +75,7 @@ namespace PingWin.Core
 			{
 				var log = LogRepository.CreateLog(StatusEnum.Failure);
 
-				log.ShortData = FailureDescription();
+				log.Message = FailureDescription();
 				log.FullData = $"Actual HTTP code: {(int)response.StatusCode} {response.StatusCode}. Expected: {Code}.";
 
 				return log;

@@ -3,9 +3,9 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace PingWin.Entities.Models.Mapping
 {
-    public class LogMap : EntityTypeConfiguration<Log>
+    public class SystemLogMap : EntityTypeConfiguration<SystemLog>
     {
-        public LogMap()
+        public SystemLogMap()
         {
             // Primary Key
             this.HasKey(t => t.Id);
@@ -15,20 +15,12 @@ namespace PingWin.Entities.Models.Mapping
                 .HasMaxLength(256);
 
             // Table & Column Mappings
-            this.ToTable("Log");
+            this.ToTable("SystemLog");
             this.Property(t => t.Id).HasColumnName("Id");
-            this.Property(t => t.Status).HasColumnName("Status");
+            this.Property(t => t.DateTime).HasColumnName("DateTime");
             this.Property(t => t.Message).HasColumnName("Message");
             this.Property(t => t.FullData).HasColumnName("FullData");
             this.Property(t => t.StackTrace).HasColumnName("StackTrace");
-            this.Property(t => t.JobRecordId).HasColumnName("JobRecordId");
-            this.Property(t => t.DateTime).HasColumnName("DateTime");
-
-            // Relationships
-            this.HasRequired(t => t.JobRecord)
-                .WithMany(t => t.Logs)
-                .HasForeignKey(d => d.JobRecordId);
-
         }
     }
 }

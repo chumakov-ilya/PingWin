@@ -18,11 +18,13 @@ namespace PingWin.Entities.Models
 
         public DbSet<JobRecord> JobRecords { get; set; }
         public DbSet<Log> Logs { get; set; }
+        public DbSet<SystemLog> SystemLogs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new JobRecordMap());
             modelBuilder.Configurations.Add(new LogMap());
+            modelBuilder.Configurations.Add(new SystemLogMap());
         }
     }
 }

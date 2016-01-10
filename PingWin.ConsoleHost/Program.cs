@@ -21,8 +21,6 @@ namespace PingWin.ConsoleHost
 		{
 			var root = JobRoot.Default;
 
-			root.SetLogSuccess(true);
-
 			root.AddJob("test-http-success", 
 				new HttpRequestRule("http://httpbin.org/post").SetMethod("POST").ExpectCode(200))
 				.AttachTrigger(new MailTrigger())

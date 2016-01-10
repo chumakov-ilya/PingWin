@@ -58,7 +58,9 @@
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\Mapping\JobRecordMap.cs" />
     <Compile Include="Models\Mapping\LogMap.cs" />
+    <Compile Include="Models\Mapping\SystemLogMap.cs" />
     <Compile Include="Models\PingWinContext.cs" />
+    <Compile Include="Models\SystemLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\JobRepository.cs" />
     <Compile Include="Repositories\LogRepository.cs" />

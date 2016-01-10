@@ -25,7 +25,7 @@ namespace PingWin.Core
 		{
 			var builder = new StringBuilder();
 
-			builder.AppendLine($"Failure: {log.ShortData}");
+			builder.AppendLine($"Failure: {log.Message}");
 			builder.AppendLine();
 			builder.AppendLine($"DateTime: {log.DateTime}");
 			builder.AppendLine();
@@ -36,7 +36,7 @@ namespace PingWin.Core
 			builder.AppendLine();
 			builder.AppendLine($"Status: {log.StatusEnum}");
 			builder.AppendLine();
-			builder.AppendLine($"ShortData: {log.ShortData}");
+			builder.AppendLine($"ShortData: {log.Message}");
 			builder.AppendLine();
 			builder.AppendLine($"FullData: {log.FullData}");
 			builder.AppendLine();
