@@ -20,9 +20,9 @@ namespace PingWin.Core
 
 		public async Task ExecuteAsync()
 		{
-			DateTime to = DateTime.Now;
+			DateTime now = DateTime.Now;
 
-			var list = ReportRepository.GetIntervalReport(to.AddHours(-1), to);
+			var list = ReportRepository.GetIntervalReport(now.AddHours(-1), now);
 
 			if (list.LogTotalCount == 0) return;
 
@@ -54,7 +54,7 @@ namespace PingWin.Core
 			foreach (var row in list.Rows.OrderBy(row => row.JobName))
 			{
 				builder.AppendLine(
-					$"{row.JobName}: {row.Count} {row.First.DateTime.ToShortTimeString()} {row.Last.DateTime.ToShortTimeString()}");
+					$"{row.JobName}: {row.Count}    {row.First.DateTime.ToShortTimeString()}    {row.Last.DateTime.ToShortTimeString()}");
 			}
 
 			return builder.ToString();
