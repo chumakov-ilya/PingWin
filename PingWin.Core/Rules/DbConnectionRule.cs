@@ -22,28 +22,21 @@ namespace PingWin.Core
 		{
 			try
 			{
-				try
-				{
-					Trace.WriteLine($"DbTester.Check START");
+				Trace.WriteLine($"DbTester.Check START");
 
-					bool ok = await ConnectionCanBeOpened(ConnectionString);
+				bool ok = await ConnectionCanBeOpened(ConnectionString);
 
-					Trace.WriteLine($"{ok}: {ConnectionString}");
+				Trace.WriteLine($"{ok}: {ConnectionString}");
 
-					return LogRepository.CreateLog(StatusEnum.Success);
-				}
-				catch (SqlException exception)
-				{
-					var log = LogRepository.CreateLog(StatusEnum.Failure, exception);
-
-					log.ShortData = FailureDescription();
-
-					return log;
-				}
+				return LogRepository.CreateLog(StatusEnum.Success);
 			}
-			catch (Exception exception)
+			catch (SqlException exception)
 			{
-				return LogRepository.CreateLog(StatusEnum.InternalError, exception);
+				var log = LogRepository.CreateLog(StatusEnum.Failure, exception);
+
+				log.ShortData = FailureDescription();
+
+				return log;
 			}
 		}
 
@@ -51,8 +44,8 @@ namespace PingWin.Core
 		{
 			using (var connection = new SqlConnection(constr))
 			{
-				connection.Open();
-				connection.Close();
+				await connection.OpenAsync();
+
 				return true;
 			}
 		}

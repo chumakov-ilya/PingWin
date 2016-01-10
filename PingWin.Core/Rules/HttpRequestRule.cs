@@ -57,35 +57,28 @@ namespace PingWin.Core
 
 		public async Task<Log> ExecuteAsync()
 		{
-			try
+			//ignore SSL errors
+			ServicePointManager.ServerCertificateValidationCallback +=
+				(sender, certificate, chain, sslPolicyErrors) => true;
+
+			var client = new RestClient(Url);
+
+			IRestRequest request = new RestRequest(Method);
+
+			var response = await client.ExecuteTaskAsync(request);
+
+			if ((int)response.StatusCode == Code)
 			{
-				//ignore SSL errors
-				ServicePointManager.ServerCertificateValidationCallback +=
-					(sender, certificate, chain, sslPolicyErrors) => true;
-
-				var client = new RestClient(Url);
-
-				IRestRequest request = new RestRequest(Method);
-
-				var response = await client.ExecuteTaskAsync(request);
-
-				if ((int)response.StatusCode == Code)
-				{
-					return LogRepository.CreateLog(StatusEnum.Success);
-				}
-				else
-				{
-					var log = LogRepository.CreateLog(StatusEnum.Failure);
-
-					log.ShortData = FailureDescription();
-					log.FullData = $"Actual HTTP code: {(int)response.StatusCode} {response.StatusCode}. Expected: {Code}.";
-
-					return log;
-				}
+				return LogRepository.CreateLog(StatusEnum.Success);
 			}
-			catch (Exception exception)
+			else
 			{
-				return LogRepository.CreateLog(StatusEnum.InternalError, exception);
+				var log = LogRepository.CreateLog(StatusEnum.Failure);
+
+				log.ShortData = FailureDescription();
+				log.FullData = $"Actual HTTP code: {(int)response.StatusCode} {response.StatusCode}. Expected: {Code}.";
+
+				return log;
 			}
 		}
 

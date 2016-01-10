@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using PingWin.Entities;
@@ -19,14 +20,7 @@ namespace PingWin.Core
 
 		public static async Task RunAllAsync(List<Job> jobs)
 		{
-			var tasks = new List<Task>();
-
-			foreach (var job in jobs)
-			{
-				Task task = RunJobAsync(job);
-
-				tasks.Add(task);
-			}
+			var tasks = jobs.Select(RunJobAsync).ToList();
 
 			await Task.WhenAll(tasks);
 		}
@@ -45,7 +39,7 @@ namespace PingWin.Core
 					var stopwatch = new Stopwatch();
 					stopwatch.Start();
 
-					Log log = await job.Rule.ExecuteAsync();
+					Log log = await ExecuteRuleAsync(job);
 
 					job.WriteSelfTo(log);
 
@@ -53,7 +47,7 @@ namespace PingWin.Core
 
 					if (!success || job.LogSuccess) await LogRepository.SaveAsync(log);
 
-					if (!success) await PullTriggers(job, silence, log);
+					if (!success) await ExecuteTriggersAsync(job, silence, log);
 
 					stopwatch.Stop();
 
@@ -64,29 +58,54 @@ namespace PingWin.Core
 			});
 		}
 
-		private static async Task PullTriggers(Job job, SilenceTime silence, Log log)
+		private static async Task<Log> ExecuteRuleAsync(Job job)
 		{
-			if (silence.IsSilenceNow(log.DateTime))
+			try
 			{
-				Trace.WriteLine("iteration TRIGGERS EXECUTION: " + job.Name);
-
-				silence.SetUntil(log.DateTime + job.FailureSilenceInterval);
-
-				var tasks = new List<Task>();
-
-				foreach (var trigger in job.GetTriggers())
-				{
-					tasks.Add(trigger.ExecuteAsync(log, silence));
-				}
-
-				await Task.WhenAll(tasks);
-
-				silence.ResetCounter();
+				return await job.Rule.ExecuteAsync();
 			}
-			else
+			catch (Exception exception)
 			{
-				Trace.WriteLine("iteration TRIGGERS SILENCE: " + job.Name);
-				silence.IncreaseCounter();
+				string message = $"Unhandled job error. Job = [{job.Name}].";
+
+				return LogRepository.CreateLog(StatusEnum.InternalError, exception, message);
+			}
+		}
+
+		private static async Task ExecuteTriggersAsync(Job job, SilenceTime silence, Log log)
+		{
+			try
+			{
+				if (silence.IsSilenceNow(log.DateTime))
+				{
+					Trace.WriteLine("iteration TRIGGERS EXECUTION: " + job.Name);
+
+					silence.SetUntil(log.DateTime + job.FailureSilenceInterval);
+
+					var tasks = new List<Task>();
+
+					foreach (var trigger in job.GetTriggers())
+					{
+						tasks.Add(trigger.ExecuteAsync(log, silence));
+					}
+
+					await Task.WhenAll(tasks);
+
+					silence.ResetCounter();
+				}
+				else
+				{
+					Trace.WriteLine("iteration TRIGGERS SILENCE: " + job.Name);
+					silence.IncreaseCounter();
+				}
+			}
+			catch (Exception exception)
+			{
+				//string message = $"Unhandled trigger error. Job = [{job.Name}].";
+
+				//var log = LogRepository.CreateLog(StatusEnum.InternalError, exception, message);
+
+				//LogRepository.SaveAsync(log);
 			}
 		}
 	}
