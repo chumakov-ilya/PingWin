@@ -67,9 +67,12 @@ namespace PingWin.Core
 				}
 				catch (Exception exception)
 				{
-					await SystemLogRepository.SaveAsync(exception, $"Unhandled job error. Job = [{job.Name}].");
+					var minutes = TimeSpan.FromMinutes(10);
 
-					await Task.Delay(TimeSpan.FromMinutes(10)); //TODO to config
+					await SystemLogRepository.SaveAsync(exception, 
+						$"Unhandled job error. Job = [{job.Name}]. Job will be recycled in {minutes}. ");
+
+					await Task.Delay(minutes); //TODO to config
 				}
 			}
 		}

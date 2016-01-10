@@ -59,9 +59,12 @@ namespace PingWin.Core
 				}
 				catch (Exception exception)
 				{
-					await SystemLogRepository.SaveAsync(exception, $"Unhandled report error.");
-					
-					await Task.Delay(TimeSpan.FromMinutes(10)); //TODO to config
+					var minutes = TimeSpan.FromMinutes(10);
+
+					await SystemLogRepository.SaveAsync(exception, 
+						$"Unhandled report error. Report will be recycled in {minutes}. ");
+
+					await Task.Delay(minutes); //TODO to config
 				}
 			}
 		}
