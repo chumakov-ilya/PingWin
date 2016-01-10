@@ -31,7 +31,7 @@ namespace PingWin.Core
 
 		private async Task SendMail(ReportRowList list)
 		{
-			string subject = "PingWin regular report: Failures!";
+			string subject = "PingWin: Regular failure report!";
 
 			string body = GetBody(list);
 
