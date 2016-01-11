@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +21,11 @@ namespace PingWin.Core
 
 		private List<JobRecord> Records { get; }
 		private List<Job> Jobs { get; }
+
+	    public ReadOnlyCollection<Job> GetJobs()
+	    {
+	        return Jobs.AsReadOnly();
+	    }
 
 		public static JobRoot Default { get; } = new JobRoot();
 

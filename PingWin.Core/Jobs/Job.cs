@@ -72,7 +72,8 @@ namespace PingWin.Core
 		public Job SetDebugSettings()
 		{
 			SetCheckIntervalSeconds(1)
-				.SetFailureSilenceIntervalSeconds(5);
+			.SetFailureSilenceIntervalSeconds(5)
+			.SetLogSuccess(true);
 
 			return this;
 		}
