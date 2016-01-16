@@ -77,6 +77,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="AppSettings.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ConnectionStrings.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>

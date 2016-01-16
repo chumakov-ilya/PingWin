@@ -7,8 +7,6 @@ namespace PingWin.SmokeTests
 	/// </summary>
 	public class RealRootHelper
 	{
-
-
 		public static ReportRoot GetReportRootNotEmpty()
 		{
 			var root = ReportRoot.Default;
