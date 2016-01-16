@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
+using PingWin.Core;
 
-namespace PingWin.Core.Tests
+namespace PingWin.SmokeTests
 {
 	public class ReportRoot_Tests
 	{

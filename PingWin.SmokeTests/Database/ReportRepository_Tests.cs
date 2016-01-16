@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using NUnit.Framework;
 using PingWin.Entities;
 
-namespace PingWin.Core.Tests
+namespace PingWin.SmokeTests
 {
 	public class ReportRepository_Tests
 	{

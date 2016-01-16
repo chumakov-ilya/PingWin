@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace PingWin.Core.Tests
+namespace PingWin.SmokeTests
 {
 	public class JobRoot_Tests
 	{

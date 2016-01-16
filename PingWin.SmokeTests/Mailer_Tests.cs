@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
+using PingWin.Core;
 
-namespace PingWin.Core.Tests
+namespace PingWin.SmokeTests
 {
 	public class Mailer_Tests
 	{

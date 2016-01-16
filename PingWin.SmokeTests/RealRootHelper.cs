@@ -1,4 +1,6 @@
-﻿namespace PingWin.Core.Tests
+﻿using PingWin.Core;
+
+namespace PingWin.SmokeTests
 {
 	/// <summary>
 	/// roots from this class should exist in db and work as expected
