@@ -3,10 +3,10 @@ using NUnit.Framework;
 
 namespace PingWin.Core.Tests
 {
-	public class Report_Tests
+	public class ReportRoot_Tests
 	{
 		[Test]
-		public async Task RunAll_Test()
+		public async Task RunAllAsync_Test()
 		{
 			var root = ReportRoot.Default;
 

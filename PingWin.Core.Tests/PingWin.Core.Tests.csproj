@@ -53,15 +53,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DbConnectionRule_Tests.cs" />
-    <Compile Include="Entity_Tests.cs" />
-    <Compile Include="HttpRequestRule_Tests.cs" />
+    <Compile Include="RealRootHelper.cs" />
+    <Compile Include="Rules\DbConnectionRule_Tests.cs" />
+    <Compile Include="Database\Entity_Tests.cs" />
+    <Compile Include="Rules\HttpRequestRule_Tests.cs" />
     <Compile Include="Mailer_Tests.cs" />
     <Compile Include="Monitor_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReportRepository_Tests.cs" />
-    <Compile Include="Report_Tests.cs" />
-    <Compile Include="Job_Tests.cs" />
+    <Compile Include="Database\ReportRepository_Tests.cs" />
+    <Compile Include="ReportRoot_Tests.cs" />
+    <Compile Include="JobRoot_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PingWin.Core\PingWin.Core.csproj">
