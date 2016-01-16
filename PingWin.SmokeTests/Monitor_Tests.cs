@@ -14,5 +14,11 @@ namespace PingWin.SmokeTests
 
 			Monitor.Run(jobRoot, reportRoot);
 		}
+
+		[Test]
+		public void Run_WhenCalledWithNull_LogsErrorAndThrows()
+		{
+			Monitor.Run(null);
+		}
 	}
 }

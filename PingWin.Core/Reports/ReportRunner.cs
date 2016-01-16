@@ -32,7 +32,7 @@ namespace PingWin.Core
 			}
 			catch (Exception exception)
 			{
-				await SystemLogRepository.SaveAsync(exception, $"Fatal report runner error. Reports are stopped until restart.");
+				await SystemLogRepository.SaveAsync(exception, $"Fatal report runner error. Reports will not be runned until restart.");
 			}
 		}
 

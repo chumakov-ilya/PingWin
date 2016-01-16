@@ -16,11 +16,28 @@ namespace PingWin.Entities
 			}
 		}
 
+		public int Save(SystemLog log)
+		{
+			using (var context = new PingWinContext())
+			{
+				context.SystemLogs.Add(log);
+
+				return context.SaveChanges();
+			}
+		}
+
 		public async Task SaveAsync(Exception exception = null, string message = null)
 		{
 			var log = CreateLog(exception, message);
 
 			await SaveAsync(log);
+		}
+
+		public int Save(Exception exception = null, string message = null)
+		{
+			var log = CreateLog(exception, message);
+
+			return Save(log);
 		}
 
 		public SystemLog CreateLog(Exception exception = null, string message = null)

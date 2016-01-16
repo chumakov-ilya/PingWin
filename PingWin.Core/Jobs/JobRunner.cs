@@ -31,7 +31,7 @@ namespace PingWin.Core
 			}
 			catch (Exception exception)
 			{
-				await SystemLogRepository.SaveAsync(exception, $"Fatal job runner error. Jobs are stopped until restart.");
+				await SystemLogRepository.SaveAsync(exception, $"Fatal job runner error. Jobs will not be runned until restart.");
 			}
 		}
 
