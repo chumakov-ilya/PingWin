@@ -9,13 +9,13 @@ namespace PingWin.IsolatedTests
 		[SetUp]
 		public void SetUp()
 		{
-			DefaultDiContainer.Kernel.Load(new MockModule());
+			DiContainer.Kernel.Load(new MockModule());
 		}
 
 		[Test]
 		public async Task RunAllAsync_Test()
 		{
-			var root = DefaultDiContainer.GetService<JobRoot>();
+			var root = DiContainer.GetService<JobRoot>();
 
 			await root.RunAllAsync();
 		}

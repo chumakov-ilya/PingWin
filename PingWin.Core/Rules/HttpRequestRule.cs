@@ -25,7 +25,7 @@ namespace PingWin.Core
 
 		public static HttpRequestRule Create(string url)
 		{
-			var instance = DefaultDiContainer.GetService<HttpRequestRule>();
+			var instance = DiContainer.GetService<HttpRequestRule>();
 
 			instance.Url = url;
 

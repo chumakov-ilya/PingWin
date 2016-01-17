@@ -25,7 +25,7 @@ namespace PingWin.Core
 
 		public static ReportRoot Create()
 		{
-			return DefaultDiContainer.GetService<ReportRoot>();
+			return DiContainer.GetService<ReportRoot>();
 		}
 
 		public async Task RunAllAsync()

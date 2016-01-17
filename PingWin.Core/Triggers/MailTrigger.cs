@@ -13,7 +13,7 @@ namespace PingWin.Core
 
 		public static MailTrigger Create()
 		{
-			return DefaultDiContainer.GetService<MailTrigger>();
+			return DiContainer.GetService<MailTrigger>();
 		}
 
 		public ISilenceInfo SilenceInfo { get; private set; }

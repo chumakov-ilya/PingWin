@@ -8,7 +8,7 @@ namespace PingWin.SmokeTests
 		[Test]
 		public async void SendMailAsync_Test()
 		{
-			var mailer = DefaultDiContainer.GetService<IMailer>();
+			var mailer = DiContainer.GetService<IMailer>();
 
 			await mailer.SendMailAsync("rush", "this is my test email body");
 		}

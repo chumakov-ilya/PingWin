@@ -31,7 +31,7 @@ namespace PingWin.Core
 
 		public static JobRoot Create()
 		{
-			return DefaultDiContainer.GetService<JobRoot>();
+			return DiContainer.GetService<JobRoot>();
 		}
 
 		public ReadOnlyCollection<Job> GetJobs()

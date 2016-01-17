@@ -8,7 +8,7 @@ namespace PingWin.IsolatedTests
 		[SetUp]
 		public void SetUp()
 		{
-			DefaultDiContainer.Kernel.Load(new MockModule());
+			DiContainer.Kernel.Load(new MockModule());
 		}
 
 		[Test]

@@ -5,7 +5,7 @@ using PingWin.Entities.Models;
 
 namespace PingWin.Core
 {
-	public class RealModule : NinjectModule
+	public class AppModule : NinjectModule
 	{
 		public override void Load()
 		{

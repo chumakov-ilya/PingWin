@@ -13,7 +13,7 @@ namespace PingWin.Core
 
 		public static void Run(JobRoot jobRoot, ReportRoot reportRoot = null)
 		{
-			var instance = DefaultDiContainer.GetService<Monitor>();
+			var instance = DiContainer.GetService<Monitor>();
 
 			instance.RunInjected(jobRoot, reportRoot);
 		}

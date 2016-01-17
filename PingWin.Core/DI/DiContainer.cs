@@ -3,11 +3,11 @@ using Ninject.Syntax;
 
 namespace PingWin.Core
 {
-	public static class DefaultDiContainer
+	public static class DiContainer
 	{
-		static DefaultDiContainer()
+		static DiContainer()
 		{
-			Kernel = new StandardKernel(new RealModule());
+			Kernel = new StandardKernel(new AppModule());
 		}
 
 		public static IKernel Kernel { get; set; }

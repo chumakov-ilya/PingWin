@@ -42,7 +42,7 @@ namespace PingWin.Core
 
 		public static DbConnectionRule Create(string connectionString)
 		{
-			var instance = DefaultDiContainer.GetService<DbConnectionRule>();
+			var instance = DiContainer.GetService<DbConnectionRule>();
 
 			instance.ConnectionString = connectionString;
 

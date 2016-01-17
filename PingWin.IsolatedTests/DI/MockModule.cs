@@ -9,7 +9,6 @@ namespace PingWin.IsolatedTests
 {
 	public class MockModule : NinjectModule
 	{
-
 		public MockRepository MockRepository { get; set; }
 
 		public MockModule()
@@ -30,16 +29,16 @@ namespace PingWin.IsolatedTests
 			BindToMock<IMailer>(MockHelper.Mailer());
 		}
 
+		public IBindingNamedWithOrOnSyntax<T> BindToMock<T>(T mock) where T : class
+		{
+			return Rebind<T>().ToConstant(mock).InTransientScope();
+		}
+
 		public IBindingNamedWithOrOnSyntax<T> BindToMock<T>() where T : class
 		{
 			T mock = MockRepository.Create<T>().Object;
 
 			return BindToMock(mock);
-		}
-
-		public IBindingNamedWithOrOnSyntax<T> BindToMock<T>(T mock) where T : class
-		{
-			return Rebind<T>().ToConstant(mock).InTransientScope();
 		}
 	}
 }

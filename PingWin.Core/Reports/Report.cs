@@ -18,7 +18,7 @@ namespace PingWin.Core
 
 		public static Report Create()
 		{
-			return DefaultDiContainer.GetService<Report>();
+			return DiContainer.GetService<Report>();
 		}
 
 		[Inject]

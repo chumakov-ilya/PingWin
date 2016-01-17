@@ -65,7 +65,7 @@
     <Compile Include="Common\CoreEx.cs" />
     <Compile Include="Common\CoreException.cs" />
     <Compile Include="Common\IMailer.cs" />
-    <Compile Include="DI\DefaultDiContainer.cs" />
+    <Compile Include="DI\DiContainer.cs" />
     <Compile Include="Jobs\IJob.cs" />
     <Compile Include="Jobs\Job.cs" />
     <Compile Include="Jobs\JobDefaultSettings.cs" />
@@ -80,10 +80,9 @@
     <Compile Include="Reports\ReportRunner.cs" />
     <Compile Include="Rest\IRestFactory.cs" />
     <Compile Include="Rest\RestFactory.cs" />
-    <Compile Include="DI\RealModule.cs" />
+    <Compile Include="DI\AppModule.cs" />
     <Compile Include="Rules\IRule.cs" />
     <Compile Include="Rules\HttpRequestRule.cs" />
-    <Compile Include="Rules\WcfEndpointRule.cs" />
     <Compile Include="Rules\DbConnectionRule.cs" />
     <Compile Include="Jobs\JobRunner.cs" />
     <Compile Include="Triggers\MailTrigger.cs" />
