@@ -11,14 +11,18 @@ namespace PingWin.Core
 		{
 			this.Bind<ISystemLogRepository>().To<SystemLogRepository>();
 			this.Bind<ILogRepository>().To<LogRepository>();
+			this.Bind<JobRepository>().ToSelf();
+			this.Bind<ReportRepository>().ToSelf();
+
+
 			this.Bind<IRestFactory>().To<RestFactory>();
 			this.Bind<IContextFactory>().To<ContextFactory>();
-			this.Bind<JobRunner>().ToSelf();
-			this.Bind<JobRoot>().ToSelf();
-			this.Bind<JobRepository>().ToSelf();
+			//this.Bind<JobRunner>().ToSelf();
+			//this.Bind<JobRoot>().ToSelf();
+			
 
-			this.Bind<ReportRunner>().ToSelf();
-			this.Bind<ReportRoot>().ToSelf();
+			//this.Bind<ReportRunner>().ToSelf();
+			//this.Bind<ReportRoot>().ToSelf();
 		}
 	}
 }

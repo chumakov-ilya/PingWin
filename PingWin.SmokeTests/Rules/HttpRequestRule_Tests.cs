@@ -1,6 +1,4 @@
-﻿using Ninject;
-using Ninject.Modules;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using PingWin.Core;
 
 namespace PingWin.SmokeTests
@@ -15,31 +13,5 @@ namespace PingWin.SmokeTests
 
 			//rule.ExecuteAsync().Wait();
 		}
-
-		[Test]
-		public void ExecuteIso_Test()
-		{
-			DefaultDiContainer.Kernel = MockDiContainer.Kernel;
-
-			HttpRequestRule rule = HttpRequestRule.Create("http://httpbin.org/post");
-
-			rule.SetMethod("POST");
-
-			//rule.RestFactory = 
-
-			rule.ExecuteAsync().Wait();
-		} 
 	}
-
-	//public class FuckU : NinjectModule
-	//{
-	//	public override void Load()
-	//	{
-	//		BindToMock<ILogRepository>();
-	//		BindToMock<IRestFactory>();
-	//		BindToMock<IRestClient>();
-	//		BindToMock<IRestRequest>();
-	//		BindToMock<IRestResponse>();
-	//	}
-	//}
 }

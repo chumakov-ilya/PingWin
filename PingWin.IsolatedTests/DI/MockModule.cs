@@ -1,12 +1,10 @@
 ﻿using Moq;
-using Ninject;
 using Ninject.Modules;
 using Ninject.Syntax;
 using PingWin.Core.Rest;
-using PingWin.Entities;
 using PingWin.Entities.Models;
 
-namespace PingWin.SmokeTests
+namespace PingWin.IsolatedTests
 {
 	public class MockModule : NinjectModule
 	{

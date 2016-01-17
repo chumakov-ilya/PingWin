@@ -5,7 +5,7 @@ using PingWin.Core.Rest;
 using PingWin.Entities.Models;
 using RestSharp;
 
-namespace PingWin.SmokeTests
+namespace PingWin.IsolatedTests
 {
 	public class MockHelper
 	{

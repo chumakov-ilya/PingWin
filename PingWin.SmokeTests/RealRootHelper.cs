@@ -11,7 +11,7 @@ namespace PingWin.SmokeTests
 		{
 			var root = ReportRoot.Default;
 
-			root.AddReport(new Report())
+			root.AddReport(Report.Create())
 				.Delayed(false);
 
 			return root;

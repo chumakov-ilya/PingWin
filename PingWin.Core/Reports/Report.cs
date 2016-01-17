@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ninject;
 using PingWin.Entities;
 
 namespace PingWin.Core
 {
 	public class Report
 	{
+		[Obsolete("Direct creation is denied.")]
 		public Report()
 		{
 			RunInterval = ReportDefaultSettings.RunInterval;
-
-			ReportRepository = new ReportRepository();
 		}
 
+		public static Report Create()
+		{
+			return DefaultDiContainer.GetService<Report>();
+		}
+
+		[Inject]
 		private ReportRepository ReportRepository { get; set; }
 
 		public async Task ExecuteAsync()

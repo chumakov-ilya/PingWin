@@ -11,6 +11,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PingWin.Sql", "PingWin.Sql\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingWin.SmokeTests", "PingWin.SmokeTests\PingWin.SmokeTests.csproj", "{63ED48EB-992F-4E9B-BD39-47555F073ABF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingWin.IsolatedTests", "PingWin.IsolatedTests\PingWin.IsolatedTests.csproj", "{76BE103D-2445-4010-8598-B04D2299690F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{63ED48EB-992F-4E9B-BD39-47555F073ABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63ED48EB-992F-4E9B-BD39-47555F073ABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63ED48EB-992F-4E9B-BD39-47555F073ABF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76BE103D-2445-4010-8598-B04D2299690F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76BE103D-2445-4010-8598-B04D2299690F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76BE103D-2445-4010-8598-B04D2299690F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76BE103D-2445-4010-8598-B04D2299690F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ninject;
 using PingWin.Entities.Models;
 
 namespace PingWin.Entities
 {
 	public class ReportRepository
 	{
+		[Inject]
 		public JobRepository JobRepository { get; set; }
 
-		public ReportRepository()
-		{
-			JobRepository = new JobRepository();
-		}
+		[Inject]
+		public IContextFactory ContextFactory { get; set; }
 
 		public ReportRowList GetIntervalReport(DateTime begin, DateTime end)
 		{
 			const int success = (int)StatusEnum.Success;
 
-			using (var context = new PingWinContext())
+			using (var context = ContextFactory.Create())
 			{
 				var list = new ReportRowList();
 				list.Begin = begin;

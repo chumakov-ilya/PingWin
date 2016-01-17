@@ -13,9 +13,7 @@ namespace PingWin.Core
 
 		public static void Run(JobRoot jobRoot, ReportRoot reportRoot = null)
 		{
-			IKernel kernel = new StandardKernel(new RealModule());
-
-			var instance = kernel.Get<Monitor>();
+			var instance = DefaultDiContainer.GetService<Monitor>();
 
 			instance.RunInjected(jobRoot, reportRoot);
 		}

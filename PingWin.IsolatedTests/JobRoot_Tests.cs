@@ -2,14 +2,14 @@
 using NUnit.Framework;
 using PingWin.Core;
 
-namespace PingWin.SmokeTests
+namespace PingWin.IsolatedTests
 {
 	public class JobRoot_Tests
 	{
 		[Test]
 		public async Task RunAllAsync_Test()
 		{
-			var root = RealRootHelper.GetJobRootNotEmpty();
+			var root = DefaultDiContainer.GetService<JobRoot>();
 
 			await root.RunAllAsync();
 		}

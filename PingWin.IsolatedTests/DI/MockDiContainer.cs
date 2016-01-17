@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Moq;
 using Ninject;
@@ -9,7 +8,7 @@ using PingWin.Entities;
 using PingWin.Entities.Models;
 using RestSharp;
 
-namespace PingWin.SmokeTests
+namespace PingWin.IsolatedTests
 {
 	public class MockDiContainer
 	{
