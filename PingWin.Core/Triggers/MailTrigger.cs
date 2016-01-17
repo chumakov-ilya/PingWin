@@ -21,7 +21,7 @@ namespace PingWin.Core
 		public IJob Job { get; set; }
 
 		[Inject]
-		private IMailer Mailer { get; set; }
+		public IMailer Mailer { get; set; }
 
 		public async Task ExecuteAsync(Log log, ISilenceInfo silence = null)
 		{

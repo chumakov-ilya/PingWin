@@ -1,4 +1,7 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Moq;
 using PingWin.Core;
@@ -17,37 +20,57 @@ namespace PingWin.IsolatedTests
 			MockRepository = mockRepository;
 		}
 
-		private IPingWinContext CreateStubContext()
+		private IPingWinContext StubContext()
 		{
 			var mock = MockRepository.Create<IPingWinContext>();
 
 			mock.Setup(x => x.SaveChanges())
 				.Returns(int.MaxValue);
 
+			var logs = StubDbSet<Log>();
+			mock.Setup(m => m.Logs).Returns(logs.Object);
+
+			var slogs = new Mock<DbSet<SystemLog>>();
+			mock.Setup(m => m.SystemLogs).Returns(slogs.Object);
+
 			return mock.Object;
 		}
 
-		public IContextFactory ContextFactory()
+		private static Mock<DbSet<T>> StubDbSet<T>()	where T: class 
+		{
+			var data = new List<T>().AsQueryable();
+
+			var mock = new Mock<DbSet<T>>();
+
+			mock.As<IQueryable<T>>().Setup(m => m.Provider).Returns(data.Provider);
+			mock.As<IQueryable<T>>().Setup(m => m.Expression).Returns(data.Expression);
+			mock.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(data.ElementType);
+			mock.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+			return mock;
+		}
+
+		public IContextFactory StubContextFactory()
 		{
 			var mock = MockRepository.Create<IContextFactory>();
 
 			mock.Setup(x => x.Create())
-				.Returns(CreateStubContext());
+				.Returns(StubContext());
 
 			return mock.Object;
 		}
 
-		public IRestFactory RestFactory()
+		public IRestFactory StubRestFactory()
 		{
 			var mock = MockRepository.Create<IRestFactory>();
 
 			mock.Setup(x => x.CreateClient(It.IsAny<string>()))
-				.Returns(CreateStubRestClient());
+				.Returns(StubRestClient());
 
 			return mock.Object;
 		}
 
-		public IRestClient CreateStubRestClient()
+		public IRestClient StubRestClient()
 		{
 			var mock = MockRepository.Create<IRestClient>();
 
@@ -60,7 +83,7 @@ namespace PingWin.IsolatedTests
 			return mock.Object;
 		}
 
-		public IMailer Mailer()
+		public IMailer StubMailer()
 		{
 			var mock = MockRepository.Create<IMailer>();
 			mock.Setup(x => x.SendMailAsync(It.IsAny<string>(), It.IsAny<string>()))

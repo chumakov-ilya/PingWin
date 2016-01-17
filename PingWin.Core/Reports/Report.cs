@@ -25,7 +25,7 @@ namespace PingWin.Core
 		public ReportRepository ReportRepository { get; set; }
 
 		[Inject]
-		private IMailer Mailer { get; set; }
+		public IMailer Mailer { get; set; }
 
 		public async Task ExecuteAsync()
 		{

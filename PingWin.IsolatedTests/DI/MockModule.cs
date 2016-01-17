@@ -27,13 +27,13 @@ namespace PingWin.IsolatedTests
 		{
 			//rebind external dependencies (db etc.) only
 
-			BindToMock<IRestFactory>(MockHelper.RestFactory());
-			BindToMock<IContextFactory>(MockHelper.ContextFactory())
+			BindToMock<IRestFactory>(MockHelper.StubRestFactory());
+			BindToMock<IContextFactory>(MockHelper.StubContextFactory())
 				//.Intercept()
 				//.With<TimingInterceptor>()
 				;
 
-			BindToMock<IMailer>(MockHelper.Mailer());
+			BindToMock<IMailer>(MockHelper.StubMailer());
 
 			Rebind<JobRunner>().ToSelf();
 		}
