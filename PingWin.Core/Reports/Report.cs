@@ -24,6 +24,9 @@ namespace PingWin.Core
 		[Inject]
 		private ReportRepository ReportRepository { get; set; }
 
+		[Inject]
+		private IMailer Mailer { get; set; }
+
 		public async Task ExecuteAsync()
 		{
 			DateTime now = DateTime.Now;

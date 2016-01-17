@@ -64,6 +64,7 @@
     <Compile Include="Common\ConfigurationHelper.cs" />
     <Compile Include="Common\CoreEx.cs" />
     <Compile Include="Common\CoreException.cs" />
+    <Compile Include="Common\IMailer.cs" />
     <Compile Include="DI\DefaultDiContainer.cs" />
     <Compile Include="Jobs\IJob.cs" />
     <Compile Include="Jobs\Job.cs" />

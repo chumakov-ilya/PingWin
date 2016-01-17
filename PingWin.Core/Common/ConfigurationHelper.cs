@@ -25,7 +25,7 @@ namespace PingWin.Core
 				var value = ConfigurationManager.AppSettings[paramName];
 				return String.IsNullOrEmpty(value) ? defaultValue : convertFunc(value);
 			}
-			catch (Exception ex)
+			catch
 			{
 				return defaultValue;
 			}

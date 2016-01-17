@@ -1,14 +1,27 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Threading.Tasks;
+using Ninject;
 using PingWin.Entities.Models;
 
 namespace PingWin.Core
 {
 	public class MailTrigger
 	{
+		[Obsolete("Direct creation is denied.")]
+		public MailTrigger() {}
+
+		public static MailTrigger Create()
+		{
+			return DefaultDiContainer.GetService<MailTrigger>();
+		}
+
 		public ISilenceInfo SilenceInfo { get; private set; }
 		public IRule Rule { get; set; }
 		public IJob Job { get; set; }
+
+		[Inject]
+		private IMailer Mailer { get; set; }
 
 		public async Task ExecuteAsync(Log log, ISilenceInfo silence = null)
 		{
@@ -47,9 +60,11 @@ namespace PingWin.Core
 			{
 				if (SilenceInfo.Counter > 0)
 				{
-					builder.AppendLine($"{SilenceInfo.Counter} messages before this were not sent due to Job.FailureSilenceInterval setting.");
+					builder.AppendLine(
+						$"{SilenceInfo.Counter} messages before this were not sent due to Job.FailureSilenceInterval setting.");
 				}
-				builder.AppendLine($"Next messages will not be sent until {SilenceInfo.Until} due to Job.FailureSilenceInterval setting.");
+				builder.AppendLine(
+					$"Next messages will not be sent until {SilenceInfo.Until} due to Job.FailureSilenceInterval setting.");
 			}
 
 			return builder.ToString();

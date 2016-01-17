@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using Moq;
+using PingWin.Core;
 using PingWin.Core.Rest;
 using PingWin.Entities.Models;
 using RestSharp;
@@ -55,6 +56,15 @@ namespace PingWin.IsolatedTests
 
 			mock.Setup(x => x.ExecuteTaskAsync(It.IsAny<IRestRequest>()))
 				.Returns(Task.FromResult(response));
+
+			return mock.Object;
+		}
+
+		public IMailer Mailer()
+		{
+			var mock = MockRepository.Create<IMailer>();
+			mock.Setup(x => x.SendMailAsync(It.IsAny<string>(), It.IsAny<string>()))
+				.Returns(Task.CompletedTask);
 
 			return mock.Object;
 		}

@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Ninject.Modules;
 using Ninject.Syntax;
+using PingWin.Core;
 using PingWin.Core.Rest;
 using PingWin.Entities.Models;
 
@@ -22,9 +23,11 @@ namespace PingWin.IsolatedTests
 
 		public override void Load()
 		{
-			BindToMock<IRestFactory>(MockHelper.RestFactory());
+			//rebind external dependencies (db etc.) only
 
+			BindToMock<IRestFactory>(MockHelper.RestFactory());
 			BindToMock<IContextFactory>(MockHelper.ContextFactory());
+			BindToMock<IMailer>(MockHelper.Mailer());
 		}
 
 		public IBindingNamedWithOrOnSyntax<T> BindToMock<T>() where T : class

@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace PingWin.Core
 {
-	public class Mailer
+	public class Mailer : IMailer
 	{
-		public static async Task SendMailAsync(string subject, string body)
+		public async Task SendMailAsync(string subject, string body)
 		{
 			var config = new ConfigurationHelper();
 

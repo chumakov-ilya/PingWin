@@ -9,20 +9,23 @@ namespace PingWin.Core
 	{
 		public override void Load()
 		{
-			this.Bind<ISystemLogRepository>().To<SystemLogRepository>();
-			this.Bind<ILogRepository>().To<LogRepository>();
-			//this.Bind<JobRepository>().ToSelf();
-			//this.Bind<ReportRepository>().ToSelf();
+			Bind<ISystemLogRepository>().To<SystemLogRepository>();
+			Bind<ILogRepository>().To<LogRepository>();
+			//Bind<JobRepository>().ToSelf();
+			//Bind<ReportRepository>().ToSelf();
 
 
-			this.Bind<IRestFactory>().To<RestFactory>();
-			this.Bind<IContextFactory>().To<ContextFactory>();
-			//this.Bind<JobRunner>().ToSelf();
-			//this.Bind<JobRoot>().ToSelf();
+			Bind<IRestFactory>().To<RestFactory>();
+			Bind<IContextFactory>().To<ContextFactory>();
+
+			Bind<IMailer>().To<Mailer>();
+
+			//Bind<JobRunner>().ToSelf();
+			//Bind<JobRoot>().ToSelf();
 			
 
-			//this.Bind<ReportRunner>().ToSelf();
-			//this.Bind<ReportRoot>().ToSelf();
+			//Bind<ReportRunner>().ToSelf();
+			//Bind<ReportRoot>().ToSelf();
 		}
 	}
 }

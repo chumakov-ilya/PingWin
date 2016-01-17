@@ -57,7 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DI\KernelExtentions.cs" />
-    <Compile Include="DI\MockDiContainer.cs" />
     <Compile Include="DI\MockHelper.cs" />
     <Compile Include="DI\MockModule.cs" />
     <Compile Include="JobRoot_Tests.cs" />

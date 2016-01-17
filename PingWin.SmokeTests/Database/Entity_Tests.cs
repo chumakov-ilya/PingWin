@@ -21,7 +21,7 @@ namespace PingWin.SmokeTests
 		}
 
 		[Test]
-		public void SaveLog()
+		public async void SaveLog()
 		{
 			var repo = new LogRepository();
 
@@ -30,7 +30,7 @@ namespace PingWin.SmokeTests
 			log.StatusEnum = StatusEnum.Success;
 			log.DateTime = DateTime.Now;
 
-			repo.SaveAsync(log);
+			await repo.SaveAsync(log);
 		}
 	}
 }

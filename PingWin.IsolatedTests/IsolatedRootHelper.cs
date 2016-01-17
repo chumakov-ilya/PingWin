@@ -33,7 +33,7 @@ namespace PingWin.IsolatedTests
 			foreach (Job job in root.GetJobs())
 			{
 				job
-					//.AttachTrigger(new MailTrigger())
+					.AttachTrigger(MailTrigger.Create())
 					.SetLogSuccess(true)
 					.SetDebugSettings()
 					;
