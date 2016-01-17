@@ -4,7 +4,7 @@ using PingWin.Entities.Models.Mapping;
 
 namespace PingWin.Entities.Models
 {
-    public partial class PingWinContext : DbContext
+    public partial class PingWinContext : DbContext, IPingWinContext
     {
         static PingWinContext()
         {
@@ -16,9 +16,9 @@ namespace PingWin.Entities.Models
         {
         }
 
-        public DbSet<JobRecord> JobRecords { get; set; }
-        public DbSet<Log> Logs { get; set; }
-        public DbSet<SystemLog> SystemLogs { get; set; }
+        public IDbSet<JobRecord> JobRecords { get; set; }
+        public IDbSet<Log> Logs { get; set; }
+        public IDbSet<SystemLog> SystemLogs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

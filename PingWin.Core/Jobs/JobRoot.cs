@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
+using Ninject;
 using PingWin.Entities;
 using PingWin.Entities.Models;
 
@@ -10,29 +11,38 @@ namespace PingWin.Core
 {
 	public class JobRoot
 	{
-		private JobRoot()
+		[Obsolete("Use Create method instead")]
+		[Inject]
+		public JobRoot(JobRepository jobRepository)
 		{
-			var repository = new JobRepository();
-
-			Records = repository.GetJobRecords();
+			Records = jobRepository.GetJobRecords();
 
 			Jobs = new List<Job>();
 		}
 
+		[Inject]
+		public JobRunner Runner { get; set; }
+
+		public static JobRoot Default { get; } = Create();
+
 		private List<JobRecord> Records { get; }
 		private List<Job> Jobs { get; }
 
-	    public ReadOnlyCollection<Job> GetJobs()
-	    {
-	        return Jobs.AsReadOnly();
-	    }
 
-		public static JobRoot Default { get; } = new JobRoot();
+		public static JobRoot Create()
+		{
+			return DefaultDiContainer.GetService<JobRoot>();
+		}
+
+		public ReadOnlyCollection<Job> GetJobs()
+		{
+			return Jobs.AsReadOnly();
+		}
 
 		public Job AddJob(string name, IRule rule)
 		{
 			var record = Records.FirstOrDefault(r => r.Name == name);
-			bool jobRegistered = Jobs.Any(j => j.Name == name);
+			var jobRegistered = Jobs.Any(j => j.Name == name);
 
 			if (record != null && !jobRegistered)
 			{
@@ -57,7 +67,7 @@ namespace PingWin.Core
 
 		public async Task RunAllAsync()
 		{
-			await JobRunner.RunAllAsync(Jobs);
+			await Runner.RunAllAsync(Jobs);
 		}
 	}
 }

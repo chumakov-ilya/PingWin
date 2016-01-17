@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Ninject;
 using PingWin.Entities;
 using PingWin.Entities.Models;
 
@@ -11,17 +12,16 @@ namespace PingWin.Core
 {
 	public class JobRunner
 	{
-		static JobRunner()
-		{
-			LogRepository = new LogRepository();
-			SystemLogRepository = new SystemLogRepository();
-		}
+		[Obsolete("Direct creation is denied.")]
+		public JobRunner() {}
 
-		private static SystemLogRepository SystemLogRepository { get; set; }
+		[Inject]
+		public ISystemLogRepository SystemLogRepository { get; set; }
 
-		private static LogRepository LogRepository { get; }
+		[Inject]
+		public ILogRepository LogRepository { get; set; }
 
-		public static async Task RunAllAsync(List<Job> jobs)
+		public async Task RunAllAsync(List<Job> jobs)
 		{
 			try
 			{
@@ -35,7 +35,7 @@ namespace PingWin.Core
 			}
 		}
 
-		public static async Task RunJobAsync(Job job)
+		public async Task RunJobAsync(Job job)
 		{
 			var silence = new SilenceTime();
 
@@ -77,7 +77,7 @@ namespace PingWin.Core
 			}
 		}
 
-		private static async Task<Log> ExecuteRuleAsync(Job job)
+		private async Task<Log> ExecuteRuleAsync(Job job)
 		{
 			try
 			{
@@ -91,7 +91,7 @@ namespace PingWin.Core
 			}
 		}
 
-		private static async Task ExecuteTriggersAsync(Job job, SilenceTime silence, Log log)
+		private async Task ExecuteTriggersAsync(Job job, SilenceTime silence, Log log)
 		{
 			try
 			{

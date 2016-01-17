@@ -2,20 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Ninject;
 using PingWin.Entities;
 
 namespace PingWin.Core
 {
-	public static class ReportRunner
+	public class ReportRunner
 	{
-		static ReportRunner()
-		{
-			SystemLogRepository = new SystemLogRepository();
-		}
+		[Obsolete("Direct creation is denied.")]
+		public ReportRunner() { }
 
-		public static SystemLogRepository SystemLogRepository { get; set; }
+		[Inject]
+		public ISystemLogRepository SystemLogRepository { get; set; }
 
-		public static async Task RunAllAsync(List<Report> reports)
+		public async Task RunAllAsync(List<Report> reports)
 		{
 			try
 			{
@@ -36,12 +36,12 @@ namespace PingWin.Core
 			}
 		}
 
-		public static TimeSpan GetTimeUntilNextHour()
+		public TimeSpan GetTimeUntilNextHour()
 		{
 			return DateTime.Now.TruncateToHours().AddHours(1) - DateTime.Now;
 		}
 
-		public static async Task RunReportAsync(Report report)
+		public async Task RunReportAsync(Report report)
 		{
 			while (true)
 			{

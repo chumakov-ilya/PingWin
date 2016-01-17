@@ -21,9 +21,9 @@ namespace PingWin.SmokeTests
 		{
 			var root = JobRoot.Default;
 
-			root.AddJob("test-http-success", new HttpRequestRule("http://httpbin.org/post").SetMethod("POST").ExpectCode(200));
+			root.AddJob("test-http-success", HttpRequestRule.Create("http://httpbin.org/post").SetMethod("POST").ExpectCode(200));
 
-			root.AddJob("test-http-failure", new HttpRequestRule("http://httpbin.org/post"));
+			root.AddJob("test-http-failure", HttpRequestRule.Create("http://httpbin.org/post"));
 
 			root.AddJob("test-db-success", new DbConnectionRule("Server=.;Database=PostoryDb;Trusted_Connection=True;"));
 

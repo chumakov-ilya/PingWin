@@ -1,20 +1,26 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Ninject;
 using Nito.AsyncEx;
 using PingWin.Entities;
 
 namespace PingWin.Core
 {
-	public static class Monitor
+	public class Monitor
 	{
-		static Monitor()
-		{
-			SystemLogRepository = new SystemLogRepository();
-		}
-
-		public static SystemLogRepository SystemLogRepository { get; set; }
+		[Inject]
+		public ISystemLogRepository SystemLogRepository { get; set; }
 
 		public static void Run(JobRoot jobRoot, ReportRoot reportRoot = null)
+		{
+			IKernel kernel = new StandardKernel(new RealModule());
+
+			var instance = kernel.Get<Monitor>();
+
+			instance.RunInjected(jobRoot, reportRoot);
+		}
+
+		public void RunInjected(JobRoot jobRoot, ReportRoot reportRoot = null)
 		{
 			try
 			{

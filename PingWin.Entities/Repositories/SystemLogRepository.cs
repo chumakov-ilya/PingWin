@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Ninject;
 using PingWin.Entities.Models;
 
 namespace PingWin.Entities
 {
-	public class SystemLogRepository
+	public class SystemLogRepository : ISystemLogRepository
 	{
+		[Inject]
+		public IContextFactory ContextFactory { get; set; }
+
 		public async Task SaveAsync(SystemLog log)
 		{
-			using (var context = new PingWinContext())
+			using (var context = ContextFactory.Create())
 			{
 				context.SystemLogs.Add(log);
 
@@ -18,7 +22,7 @@ namespace PingWin.Entities
 
 		public int Save(SystemLog log)
 		{
-			using (var context = new PingWinContext())
+			using (var context = ContextFactory.Create())
 			{
 				context.SystemLogs.Add(log);
 

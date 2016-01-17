@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Ninject;
 using PingWin.Entities.Models;
 
 namespace PingWin.Entities
 {
-	public class LogRepository
+	public class LogRepository : ILogRepository
 	{
+		[Inject]
+		public IContextFactory ContextFactory { get; set; }
+
 		public async Task SaveAsync(Log log)
 		{
-			using (var context = new PingWinContext())
+			using (var context = ContextFactory.Create())
 			{
 				context.Logs.Add(log);
 

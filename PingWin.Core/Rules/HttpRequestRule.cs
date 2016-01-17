@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
+using Ninject;
+using PingWin.Core.Rest;
 using PingWin.Entities;
 using PingWin.Entities.Models;
 using RestSharp;
@@ -10,21 +12,29 @@ namespace PingWin.Core
 {
 	public class HttpRequestRule : IRule
 	{
+		[Obsolete("Use Create method instead")]
+		public HttpRequestRule() {}
+
 		public string Url { get; private set; }
 
-		public LogRepository LogRepository { get; set; }
+		[Inject]
+		public ILogRepository LogRepository { get; set; }
 
-		public HttpRequestRule(string url)
+		[Inject]
+		public IRestFactory RestFactory { get; set; }
+
+		public static HttpRequestRule Create(string url)
 		{
-			Url = url;
-			LogRepository = new LogRepository();
-			Code = 200;
-			Method = Method.GET;
+			var instance = DefaultDiContainer.GetService<HttpRequestRule>();
+
+			instance.Url = url;
+
+			return instance;
 		}
 
-		public Method Method { get; set; }
+		public Method Method { get; set; } = Method.GET;
 
-		public int Code { get; set; }
+		public int Code { get; set; } = 200;
 
 		/// <summary>
 		/// Default: 200
@@ -61,11 +71,11 @@ namespace PingWin.Core
 			ServicePointManager.ServerCertificateValidationCallback +=
 				(sender, certificate, chain, sslPolicyErrors) => true;
 
-			var client = new RestClient(Url);
+			IRestClient client = RestFactory.CreateClient(Url);
 
-			IRestRequest request = new RestRequest(Method);
+			IRestRequest request = RestFactory.CreateRequest(Method);
 
-			var response = await client.ExecuteTaskAsync(request);
+			IRestResponse response = await client.ExecuteTaskAsync(request);
 
 			if ((int)response.StatusCode == Code)
 			{
