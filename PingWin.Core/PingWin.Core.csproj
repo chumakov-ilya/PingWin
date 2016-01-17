@@ -77,6 +77,7 @@
     <Compile Include="Common\CoreEx.cs" />
     <Compile Include="Common\CoreException.cs" />
     <Compile Include="Common\IMailer.cs" />
+    <Compile Include="DbConnection\ConnectionFactory.cs" />
     <Compile Include="DI\RuleInterceptor.cs" />
     <Compile Include="DI\JobInterceptor.cs" />
     <Compile Include="DI\DiContainer.cs" />

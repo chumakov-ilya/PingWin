@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -17,6 +19,9 @@ namespace PingWin.Core
 
 		[Inject]
 		public ILogRepository LogRepository { get; set; }
+
+		[Inject]
+		public IConnectionFactory ConnectionFactory { get; set; }
 
 		//[RuleInterceptor]
 		public virtual async Task<Log> ExecuteAsync()
@@ -52,9 +57,9 @@ namespace PingWin.Core
 			return instance;
 		}
 
-		public static async Task ConnectionCanBeOpened(string constr)
+		public async Task ConnectionCanBeOpened(string constr)
 		{
-			using (var connection = new SqlConnection(constr))
+			using (DbConnection connection = ConnectionFactory.Create(constr))
 			{
 				await connection.OpenAsync();
 

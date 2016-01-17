@@ -19,6 +19,7 @@ namespace PingWin.Core
 
 			Bind<IRestFactory>().To<RestFactory>();
 			Bind<IContextFactory>().To<ContextFactory>();
+			Bind<IConnectionFactory>().To<ConnectionFactory>();
 
 			Bind<IMailer>().To<Mailer>();
 		}
