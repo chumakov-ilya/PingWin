@@ -29,6 +29,7 @@ namespace PingWin.IsolatedTests
 
 			BindToMock<IRestFactory>(MockHelper.StubRestFactory());
 			BindToMock<IContextFactory>(MockHelper.StubContextFactory());
+			BindToMock<IConnectionFactory>(MockHelper.StubConnectionFactory());
 
 			BindToMock<IMailer>(MockHelper.StubMailer());
 

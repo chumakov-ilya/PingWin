@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 using PingWin.Core;
@@ -36,7 +38,7 @@ namespace PingWin.IsolatedTests
 			return mock.Object;
 		}
 
-		private static Mock<DbSet<T>> StubDbSet<T>()	where T: class 
+		private static Mock<DbSet<T>> StubDbSet<T>() where T : class
 		{
 			var data = new List<T>().AsQueryable();
 
@@ -87,6 +89,26 @@ namespace PingWin.IsolatedTests
 		{
 			var mock = MockRepository.Create<IMailer>();
 			mock.Setup(x => x.SendMailAsync(It.IsAny<string>(), It.IsAny<string>()))
+				.Returns(Task.CompletedTask);
+
+			return mock.Object;
+		}
+
+		public IConnectionFactory StubConnectionFactory()
+		{
+			var mock = MockRepository.Create<IConnectionFactory>();
+
+			mock.Setup(x => x.Create(It.IsAny<string>()))
+				.Returns(StubDbConnection());
+
+			return mock.Object;
+		}
+
+		private DbConnection StubDbConnection()
+		{
+			var mock = MockRepository.Create<DbConnection>();
+
+			mock.Setup(x => x.OpenAsync(It.IsAny<CancellationToken>()))
 				.Returns(Task.CompletedTask);
 
 			return mock.Object;

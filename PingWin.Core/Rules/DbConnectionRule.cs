@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Ninject;
 using PingWin.Entities;
@@ -61,7 +62,8 @@ namespace PingWin.Core
 		{
 			using (DbConnection connection = ConnectionFactory.Create(constr))
 			{
-				await connection.OpenAsync();
+				//OpenAsync() is not virtual, but this override is
+				await connection.OpenAsync(CancellationToken.None);
 
 				return;
 			}
