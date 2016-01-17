@@ -1,4 +1,6 @@
-﻿using Ninject.Modules;
+﻿using System.Diagnostics;
+using Ninject.Extensions.Interception.Infrastructure.Language;
+using Ninject.Modules;
 using PingWin.Core.Rest;
 using PingWin.Entities;
 using PingWin.Entities.Models;
@@ -19,13 +21,6 @@ namespace PingWin.Core
 			Bind<IContextFactory>().To<ContextFactory>();
 
 			Bind<IMailer>().To<Mailer>();
-
-			//Bind<JobRunner>().ToSelf();
-			//Bind<JobRoot>().ToSelf();
-			
-
-			//Bind<ReportRunner>().ToSelf();
-			//Bind<ReportRoot>().ToSelf();
 		}
 	}
 }

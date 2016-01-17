@@ -9,7 +9,7 @@ namespace PingWin.Core
 		bool IsSilenceNow(DateTime now);
 	}
 
-	internal class SilenceTime : ISilenceInfo
+	public class SilenceTime : ISilenceInfo
 	{
 		public DateTime Until { get; private set; } = DateTime.MinValue;
 

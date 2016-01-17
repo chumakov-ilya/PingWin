@@ -22,7 +22,7 @@ namespace PingWin.Core
 		}
 
 		[Inject]
-		private ReportRepository ReportRepository { get; set; }
+		public ReportRepository ReportRepository { get; set; }
 
 		[Inject]
 		private IMailer Mailer { get; set; }

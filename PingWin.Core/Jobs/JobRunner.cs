@@ -25,7 +25,7 @@ namespace PingWin.Core
 		{
 			try
 			{
-				var tasks = jobs.Select(job => Task.Run(async () => await RunJobAsync(job))).ToList();
+				var tasks = jobs.Select(job => Task.Run(async () => await RunCycleAsync(job))).ToList();
 
 				await Task.WhenAll(tasks);
 			}
@@ -35,7 +35,7 @@ namespace PingWin.Core
 			}
 		}
 
-		public async Task RunJobAsync(Job job)
+		public async Task RunCycleAsync(Job job)
 		{
 			var silence = new SilenceTime();
 
@@ -43,27 +43,9 @@ namespace PingWin.Core
 			{
 				try
 				{
-					Trace.WriteLine("iteration START: " + job.Name);
+					var elapsed = await RunJobAsync(job, silence);
 
-					//estimate report generation time to correct interval between runnings
-					var stopwatch = new Stopwatch();
-					stopwatch.Start();
-
-					Log log = await ExecuteRuleAsync(job);
-
-					job.WriteSelfTo(log);
-
-					bool success = log.StatusEnum == StatusEnum.Success;
-
-					if (!success || job.LogSuccess) await LogRepository.SaveAsync(log);
-
-					if (!success) await ExecuteTriggersAsync(job, silence, log);
-
-					stopwatch.Stop();
-
-					Trace.WriteLine(stopwatch.Elapsed);
-
-					await CoreEx.DelayIfNeeded(job.CheckInterval, stopwatch.Elapsed);
+					await CoreEx.DelayIfNeeded(job.CheckInterval, elapsed);
 				}
 				catch (Exception exception)
 				{
@@ -75,6 +57,28 @@ namespace PingWin.Core
 					await Task.Delay(minutes); //TODO to config
 				}
 			}
+		}
+
+		[JobInterceptor]
+		public virtual async Task<TimeSpan> RunJobAsync(Job job, SilenceTime silence)
+		{
+			//estimate report generation time to correct interval between runnings
+			var stopwatch = new Stopwatch();
+			stopwatch.Start();
+
+			Log log = await ExecuteRuleAsync(job);
+
+			job.WriteSelfTo(log);
+
+			bool success = log.StatusEnum == StatusEnum.Success;
+
+			if (!success || job.LogSuccess) await LogRepository.SaveAsync(log);
+
+			if (!success) await ExecuteTriggersAsync(job, silence, log);
+
+			stopwatch.Stop();
+
+			return stopwatch.Elapsed;
 		}
 
 		private async Task<Log> ExecuteRuleAsync(Job job)

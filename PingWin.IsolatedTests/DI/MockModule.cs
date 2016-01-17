@@ -1,4 +1,7 @@
-﻿using Moq;
+﻿using System.Diagnostics;
+using Moq;
+using Ninject.Extensions.Interception.Advice.Syntax;
+using Ninject.Extensions.Interception.Infrastructure.Language;
 using Ninject.Modules;
 using Ninject.Syntax;
 using PingWin.Core;
@@ -25,8 +28,14 @@ namespace PingWin.IsolatedTests
 			//rebind external dependencies (db etc.) only
 
 			BindToMock<IRestFactory>(MockHelper.RestFactory());
-			BindToMock<IContextFactory>(MockHelper.ContextFactory());
+			BindToMock<IContextFactory>(MockHelper.ContextFactory())
+				//.Intercept()
+				//.With<TimingInterceptor>()
+				;
+
 			BindToMock<IMailer>(MockHelper.Mailer());
+
+			Rebind<JobRunner>().ToSelf();
 		}
 
 		public IBindingNamedWithOrOnSyntax<T> BindToMock<T>(T mock) where T : class
