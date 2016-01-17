@@ -18,15 +18,16 @@ namespace PingWin.Core
 		[Inject]
 		public ILogRepository LogRepository { get; set; }
 
-		public async Task<Log> ExecuteAsync()
+		//[RuleInterceptor]
+		public virtual async Task<Log> ExecuteAsync()
 		{
 			try
 			{
-				Trace.WriteLine($"DbTester.Check START");
+				Trace.WriteLine($"Start DbConnectionRule");
 
-				var ok = await ConnectionCanBeOpened(ConnectionString);
+				await ConnectionCanBeOpened(ConnectionString);
 
-				Trace.WriteLine($"{ok}: {ConnectionString}");
+				Trace.WriteLine($"Finish DbConnectionRule: Success.");
 
 				return LogRepository.CreateLog(StatusEnum.Success);
 			}
@@ -35,6 +36,8 @@ namespace PingWin.Core
 				var log = LogRepository.CreateLog(StatusEnum.Failure, exception);
 
 				log.Message = FailureDescription();
+
+				Trace.WriteLine($"Finish DbConnectionRule: Failure.");
 
 				return log;
 			}
@@ -49,13 +52,13 @@ namespace PingWin.Core
 			return instance;
 		}
 
-		public static async Task<bool> ConnectionCanBeOpened(string constr)
+		public static async Task ConnectionCanBeOpened(string constr)
 		{
 			using (var connection = new SqlConnection(constr))
 			{
 				await connection.OpenAsync();
 
-				return true;
+				return;
 			}
 		}
 

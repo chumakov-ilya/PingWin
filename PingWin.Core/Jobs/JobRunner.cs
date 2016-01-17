@@ -101,7 +101,7 @@ namespace PingWin.Core
 			{
 				if (silence.IsSilenceNow(log.DateTime))
 				{
-					Trace.WriteLine("iteration TRIGGERS EXECUTION: " + job.Name);
+					Trace.WriteLine("Start triggers for a job: " + job.Name);
 
 					silence.SetUntil(log.DateTime + job.FailureSilenceInterval);
 
@@ -118,7 +118,7 @@ namespace PingWin.Core
 				}
 				else
 				{
-					Trace.WriteLine("iteration TRIGGERS SILENCE: " + job.Name);
+					Trace.WriteLine("Mute triggers for a job: " + job.Name);
 					silence.IncreaseCounter();
 				}
 			}

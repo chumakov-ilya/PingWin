@@ -6,33 +6,50 @@ using Ninject;
 using Ninject.Extensions.Interception;
 using Ninject.Extensions.Interception.Attributes;
 using Ninject.Extensions.Interception.Request;
+using PingWin.Entities.Models;
 
 namespace PingWin.Core
 {
-	public class JobInterceptorAttribute : InterceptAttribute
+	public class TestInterceptor : IInterceptor
 	{
-		public override IInterceptor CreateInterceptor(IProxyRequest request)
+		public void Intercept(IInvocation invocation)
 		{
-			return request.Context.Kernel.Get<JobInterceptor>();
+			invocation.Proceed();
 		}
 	}
 
-	public class JobInterceptor : SimpleInterceptor
+	public class RuleInterceptorAttribute : InterceptAttribute
+	{
+		public override IInterceptor CreateInterceptor(IProxyRequest request)
+		{
+			return request.Context.Kernel.Get<RuleInterceptor>();
+		}
+	}
+
+	public class RuleInterceptor : SimpleInterceptor
 	{
 		readonly Stopwatch _stopwatch = new Stopwatch();
 
 		protected override void BeforeInvoke(IInvocation invocation)
 		{
-			Trace.WriteLine($"Job start: {GetJobName(invocation)}");
+			Trace.WriteLine($"Rule start: {GetWrappedType(invocation)}");
 
 			_stopwatch.Start();
 		}
 
-		private static string GetJobName(IInvocation invocation)
+		private static string GetWrappedType(IInvocation invocation)
 		{
-			IJob job = invocation.Request.Arguments.First() as IJob;
+			string name = invocation.Request.Context.Binding.Service.Name;
 
-			return job.Name;
+			return name;
+		}
+
+
+		private static string GetStatus(IInvocation invocation)
+		{
+			var log = invocation.ReturnValue as Log;
+
+			return log?.StatusEnum.ToString() ?? "ERROR";
 		}
 
 		protected override void AfterInvoke(IInvocation invocation)
@@ -42,7 +59,7 @@ namespace PingWin.Core
 			string totalSeconds = _stopwatch.Elapsed.TotalSeconds.ToString("N2");
 
 			//Trace.WriteLine($"Finish job: {GetJobName(invocation)} ({totalSeconds} s.)");
-			Trace.WriteLine($"Job finish: {GetJobName(invocation)}");
+			Trace.WriteLine($"Rule {GetStatus(invocation)}: {GetWrappedType(invocation)}");
 
 			_stopwatch.Reset();
 		}

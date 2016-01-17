@@ -22,13 +22,8 @@ namespace PingWin.IsolatedTests
 		{
 			var root = JobRoot.Default;
 
-			var names = new[] {"http", "db"};
-
-			foreach (var name in names)
-			{
-				root.Records.Add(new JobRecord() { Name = name });
-				root.AddJob(name, HttpRequestRule.Create(name));
-			}
+			CreateJob(root, "db", DbConnectionRule.Create("db"));
+			CreateJob(root, "http", HttpRequestRule.Create("http"));
 
 			foreach (Job job in root.GetJobs())
 			{
@@ -40,6 +35,12 @@ namespace PingWin.IsolatedTests
 			}
 
 			return root;
+		}
+
+		private static void CreateJob(JobRoot root, string name, IRule rule)
+		{
+			root.Records.Add(new JobRecord() {Name = name});
+			root.AddJob(name, rule);
 		}
 	}
 }

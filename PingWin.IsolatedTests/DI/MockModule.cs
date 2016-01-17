@@ -28,14 +28,18 @@ namespace PingWin.IsolatedTests
 			//rebind external dependencies (db etc.) only
 
 			BindToMock<IRestFactory>(MockHelper.StubRestFactory());
-			BindToMock<IContextFactory>(MockHelper.StubContextFactory())
-				//.Intercept()
-				//.With<TimingInterceptor>()
-				;
+			BindToMock<IContextFactory>(MockHelper.StubContextFactory());
 
 			BindToMock<IMailer>(MockHelper.StubMailer());
 
 			Rebind<JobRunner>().ToSelf();
+
+			//Rebind<DbConnectionRule>().ToSelf();
+			//Rebind<HttpRequestRule>().ToSelf();
+
+			//TODO: not initialize nested properties, why?
+			//Rebind<DbConnectionRule>().ToSelf().Intercept().With<RuleInterceptor>();
+			//Rebind<HttpRequestRule>().ToSelf().Intercept().With<TestInterceptor>();
 		}
 
 		public IBindingNamedWithOrOnSyntax<T> BindToMock<T>(T mock) where T : class

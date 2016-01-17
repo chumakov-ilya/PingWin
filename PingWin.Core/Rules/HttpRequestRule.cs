@@ -65,7 +65,8 @@ namespace PingWin.Core
 			return this;
 		}
 
-		public async Task<Log> ExecuteAsync()
+		//[RuleInterceptor]
+		public virtual async Task<Log> ExecuteAsync()
 		{
 			//ignore SSL errors
 			ServicePointManager.ServerCertificateValidationCallback +=
