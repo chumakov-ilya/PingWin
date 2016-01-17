@@ -25,8 +25,8 @@ namespace PingWin.Core
 
 		public static JobRoot Default { get; } = Create();
 
-		private List<JobRecord> Records { get; }
-		private List<Job> Jobs { get; }
+		internal List<JobRecord> Records { get; set; }
+		internal List<Job> Jobs { get; set; }
 
 
 		public static JobRoot Create()
@@ -42,9 +42,9 @@ namespace PingWin.Core
 		public Job AddJob(string name, IRule rule)
 		{
 			var record = Records.FirstOrDefault(r => r.Name == name);
-			var jobRegistered = Jobs.Any(j => j.Name == name);
+			var jobAlreadyAdded = Jobs.Any(j => j.Name == name);
 
-			if (record != null && !jobRegistered)
+			if (record != null && !jobAlreadyAdded)
 			{
 				var job = new Job(name, rule, record.Id);
 
@@ -53,9 +53,9 @@ namespace PingWin.Core
 				return job;
 			}
 
-			if (jobRegistered) throw new CoreException($"Job with name '{name}' already registered.");
+			if (jobAlreadyAdded) throw new CoreException($"Job with name '{name}' already added.");
 
-			if (record == null) throw new CoreException($"Job with name '{name}' cann't be registered. No record in db.");
+			if (record == null) throw new CoreException($"Job with name '{name}' cann't be added. No record in db.");
 
 			throw new CoreException($"Cann't register the job '{name}'");
 		}

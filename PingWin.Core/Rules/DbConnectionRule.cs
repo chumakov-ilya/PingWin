@@ -2,21 +2,21 @@
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Ninject;
 using PingWin.Entities;
 using PingWin.Entities.Models;
 
 namespace PingWin.Core
 {
-	public class DbConnectionRule: IRule
+	public class DbConnectionRule : IRule
 	{
-		public string ConnectionString { get; private set; }
-		public LogRepository LogRepository { get; set; }
+		[Obsolete("Use Create method instead")]
+		public DbConnectionRule() {}
 
-		public DbConnectionRule(string connectionString)
-		{
-			ConnectionString = connectionString;
-			LogRepository = new LogRepository();
-		}
+		public string ConnectionString { get; private set; }
+
+		[Inject]
+		public ILogRepository LogRepository { get; set; }
 
 		public async Task<Log> ExecuteAsync()
 		{
@@ -24,7 +24,7 @@ namespace PingWin.Core
 			{
 				Trace.WriteLine($"DbTester.Check START");
 
-				bool ok = await ConnectionCanBeOpened(ConnectionString);
+				var ok = await ConnectionCanBeOpened(ConnectionString);
 
 				Trace.WriteLine($"{ok}: {ConnectionString}");
 
@@ -38,6 +38,15 @@ namespace PingWin.Core
 
 				return log;
 			}
+		}
+
+		public static DbConnectionRule Create(string connectionString)
+		{
+			var instance = DefaultDiContainer.GetService<DbConnectionRule>();
+
+			instance.ConnectionString = connectionString;
+
+			return instance;
 		}
 
 		public static async Task<bool> ConnectionCanBeOpened(string constr)

@@ -14,9 +14,9 @@ namespace PingWin.IsolatedTests
 		[Test]
 		public void Run_WhenCalledWithRealRoots_WaitsAndNoError()
 		{
-			var jobRoot = DefaultDiContainer.GetService<JobRoot>();
+			var jobRoot = IsolatedRootHelper.GetJobRootNotEmpty();
 
-			var reportRoot = DefaultDiContainer.GetService<ReportRoot>();
+			var reportRoot = IsolatedRootHelper.GetReportRootNotEmpty();
 
 			Monitor.Run(jobRoot, reportRoot);
 		}

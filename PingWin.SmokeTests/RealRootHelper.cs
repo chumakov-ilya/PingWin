@@ -25,9 +25,9 @@ namespace PingWin.SmokeTests
 
 			root.AddJob("test-http-failure", HttpRequestRule.Create("http://httpbin.org/post"));
 
-			root.AddJob("test-db-success", new DbConnectionRule("Server=.;Database=PostoryDb;Trusted_Connection=True;"));
-
-			root.AddJob("test-db-failure", new DbConnectionRule("Server=.;Database=PostoryDbX;Trusted_Connection=True;"));
+			root.AddJob("test-db-success", DbConnectionRule.Create("Server=.;Database=PostoryDb;Trusted_Connection=True;"));
+														   
+			root.AddJob("test-db-failure", DbConnectionRule.Create("Server=.;Database=PostoryDbX;Trusted_Connection=True;"));
 
 			foreach (Job job in root.GetJobs())
 			{

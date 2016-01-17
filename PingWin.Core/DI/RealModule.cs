@@ -11,8 +11,8 @@ namespace PingWin.Core
 		{
 			this.Bind<ISystemLogRepository>().To<SystemLogRepository>();
 			this.Bind<ILogRepository>().To<LogRepository>();
-			this.Bind<JobRepository>().ToSelf();
-			this.Bind<ReportRepository>().ToSelf();
+			//this.Bind<JobRepository>().ToSelf();
+			//this.Bind<ReportRepository>().ToSelf();
 
 
 			this.Bind<IRestFactory>().To<RestFactory>();

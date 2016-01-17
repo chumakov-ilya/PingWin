@@ -8,12 +8,12 @@ namespace PingWin.SmokeTests
 		[Test]
 		public void Execute_Test()
 		{
-			var rule = new DbConnectionRule("Server=.;Database=PostoryDb;Trusted_Connection=True;");
+			//var rule = new DbConnectionRule("Server=.;Database=PostoryDb;Trusted_Connection=True;");
 
-			while (true)
-			{
-				rule.ExecuteAsync().Wait(); 
-			}
+			//while (true)
+			//{
+			//	rule.ExecuteAsync().Wait(); 
+			//}
 		}
 	}
 }
